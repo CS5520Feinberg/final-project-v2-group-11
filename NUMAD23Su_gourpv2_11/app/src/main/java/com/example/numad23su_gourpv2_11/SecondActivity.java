@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -25,6 +26,8 @@ public class SecondActivity extends AppCompatActivity {
     private EditText cityName;
     private ProgressBar progressBar;
 
+    private ImageView errorImage;
+
     private TextView cityNameResult, temperatureResult, humidityresult, pressureResult,
             windspeedResult;
 
@@ -40,6 +43,8 @@ public class SecondActivity extends AppCompatActivity {
         humidityresult = findViewById(R.id.humidityResult);
         pressureResult = findViewById(R.id.pressureResult);
         windspeedResult = findViewById(R.id.windspeedResult);
+
+        errorImage = findViewById(R.id.errorImage);
 
         progressBar = findViewById(R.id.progress_circular);
 
@@ -70,7 +75,8 @@ public class SecondActivity extends AppCompatActivity {
                 runOnUiThread(() -> humidityresult.setText(""));
                 runOnUiThread(() -> pressureResult.setText(""));
                 runOnUiThread(() -> windspeedResult.setText(""));
-                Snackbar.make(SecondActivity.this.getCurrentFocus(), "The city does not exist", Snackbar.LENGTH_LONG).show();
+                runOnUiThread(() -> errorImage.setVisibility(View.VISIBLE));
+                Snackbar.make(findViewById(R.id.linearLayout), "The city does not exist", Snackbar.LENGTH_LONG).show();
             } finally {
                 runOnUiThread(() -> progressBar.setVisibility(View.GONE));
             }
@@ -97,6 +103,7 @@ public class SecondActivity extends AppCompatActivity {
             runOnUiThread(() -> humidityresult.setText("Humidity: " + humidity));
             runOnUiThread(() -> pressureResult.setText("Pressure: " + pressure));
             runOnUiThread(() -> windspeedResult.setText("Wind Speed: " + windSpeed));
+            runOnUiThread(() -> errorImage.setVisibility(View.GONE));
             //runOnUiThread(() -> resultTextView.setText("City: " + cityName + "\nTemperature: " + temperature + "\nHumidity: " + humidity + "\nPressure: " + pressure + "\nWind Speed: " + windSpeed));
         } catch (Exception e) {
             Log.e("SecondActivity", "Error parsing JSON", e);

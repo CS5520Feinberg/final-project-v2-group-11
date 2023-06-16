@@ -10,14 +10,15 @@
         android:id="@+id/city_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="@string/enter_city_name"
-        android:inputType="text"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
+        android:hint="@string/enter_city_name"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        android:textColorHint="#8D6E63"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:importantForAutofill="no" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/fetch_button"
@@ -83,4 +84,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <ImageView
+        android:id="@+id/errorImage"
+        android:layout_width="95dp"
+        android:layout_height="82dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.377"
+        app:srcCompat="@android:drawable/stat_notify_error"
+        android:visibility="gone"
+        android:contentDescription="@string/todo" />
 </androidx.constraintlayout.widget.ConstraintLayout>
