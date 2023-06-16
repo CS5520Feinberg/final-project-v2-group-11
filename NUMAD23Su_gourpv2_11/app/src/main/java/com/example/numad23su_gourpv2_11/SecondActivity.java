@@ -43,7 +43,7 @@ public class SecondActivity extends AppCompatActivity {
         Thread thread = new Thread(() -> {
             try {
                 runOnUiThread(() -> progressBar.setVisibility(View.VISIBLE));
-                URL url = new URL("https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + API_KEY);
+                URL url = new URL("https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=metric&appid=" + API_KEY);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestMethod("GET");
                 BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
@@ -63,15 +63,20 @@ public class SecondActivity extends AppCompatActivity {
         thread.start();
     }
 
-
     private void parseJsonData(String jsonData) {
         try {
             JSONObject obj = new JSONObject(jsonData);
             JSONObject main = obj.getJSONObject("main");
-            final String temperature = main.getString("temp");
+            final String temperature = main.getString("temp") + "°C";
             final String humidity = main.getString("humidity");
+            final String pressure = main.getString("pressure");
 
-            runOnUiThread(() -> resultTextView.setText("Temperature: " + temperature + "\n" + "Humidity: " + humidity));
+            JSONObject wind = obj.getJSONObject("wind");
+            final String windSpeed = wind.getString("speed");
+
+            final String cityName = obj.getString("name");
+
+            runOnUiThread(() -> resultTextView.setText("City: " + cityName + "\nTemperature: " + temperature + "\nHumidity: " + humidity + "\nPressure: " + pressure + "\nWind Speed: " + windSpeed));
         } catch (Exception e) {
             Log.e("SecondActivity", "Error parsing JSON", e);
         }
