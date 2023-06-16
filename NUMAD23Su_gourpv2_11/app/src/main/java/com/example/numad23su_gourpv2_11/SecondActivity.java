@@ -18,7 +18,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class SecondActivity extends AppCompatActivity {
-    private static final String API_KEY = "805749b9bcdde60cbe02310708cdfe0c";
+    private static final String API_KEY = "41233304fa73bb4fed2ae9064a5ab935";
     private EditText cityName;
     private Button fetchButton;
     private TextView resultTextView;
@@ -43,7 +43,7 @@ public class SecondActivity extends AppCompatActivity {
         Thread thread = new Thread(() -> {
             try {
                 runOnUiThread(() -> progressBar.setVisibility(View.VISIBLE));
-                URL url = new URL("http://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + API_KEY);
+                URL url = new URL("https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + API_KEY);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestMethod("GET");
                 BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
