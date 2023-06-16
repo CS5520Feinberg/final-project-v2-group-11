@@ -26,7 +26,7 @@ public class SecondActivity extends AppCompatActivity {
     private EditText cityName;
     private ProgressBar progressBar;
 
-    private ImageView errorImage;
+    private ImageView errorImage, cityImage, temperatureImage, pressureImage, humidityImage, wspImage;
 
     private TextView cityNameResult, temperatureResult, humidityresult, pressureResult,
             windspeedResult;
@@ -45,6 +45,11 @@ public class SecondActivity extends AppCompatActivity {
         windspeedResult = findViewById(R.id.windspeedResult);
 
         errorImage = findViewById(R.id.errorImage);
+        cityImage = findViewById(R.id.cityImages);
+        temperatureImage = findViewById(R.id.temperatureImage);
+        humidityImage = findViewById(R.id.humidityImage);
+        wspImage = findViewById(R.id.wspImage);
+        pressureImage = findViewById(R.id.pressureImage);
 
         progressBar = findViewById(R.id.progress_circular);
 
@@ -70,11 +75,22 @@ public class SecondActivity extends AppCompatActivity {
                 parseJsonData(result.toString());
             } catch (Exception e) {
                 Log.e("SecondActivity", "Error fetching weather data", e);
+
+                runOnUiThread(() -> cityImage.setVisibility(View.GONE));
                 runOnUiThread(() -> cityNameResult.setText(""));
+
+                runOnUiThread(() -> temperatureImage.setVisibility(View.GONE));
                 runOnUiThread(() -> temperatureResult.setText(""));
+
+                runOnUiThread(() -> humidityImage.setVisibility(View.GONE));
                 runOnUiThread(() -> humidityresult.setText(""));
+
+                runOnUiThread(() -> pressureImage.setVisibility(View.GONE));
                 runOnUiThread(() -> pressureResult.setText(""));
+
+                runOnUiThread(() -> wspImage.setVisibility(View.GONE));
                 runOnUiThread(() -> windspeedResult.setText(""));
+
                 runOnUiThread(() -> errorImage.setVisibility(View.VISIBLE));
                 Snackbar.make(findViewById(R.id.linearLayout), "The city does not exist", Snackbar.LENGTH_LONG).show();
             } finally {
@@ -98,11 +114,21 @@ public class SecondActivity extends AppCompatActivity {
 
             final String cityName = obj.getString("name");
 
+            runOnUiThread(() -> cityImage.setVisibility(View.VISIBLE));
             runOnUiThread(() -> cityNameResult.setText("City: " + cityName));
+
+            runOnUiThread(() -> temperatureImage.setVisibility(View.VISIBLE));
             runOnUiThread(() -> temperatureResult.setText("Temperature: " + temperature));
+
+            runOnUiThread(() -> humidityImage.setVisibility(View.VISIBLE));
             runOnUiThread(() -> humidityresult.setText("Humidity: " + humidity));
+
+            runOnUiThread(() -> pressureImage.setVisibility(View.VISIBLE));
             runOnUiThread(() -> pressureResult.setText("Pressure: " + pressure));
+
+            runOnUiThread(() -> wspImage.setVisibility(View.VISIBLE));
             runOnUiThread(() -> windspeedResult.setText("Wind Speed: " + windSpeed));
+
             runOnUiThread(() -> errorImage.setVisibility(View.GONE));
             //runOnUiThread(() -> resultTextView.setText("City: " + cityName + "\nTemperature: " + temperature + "\nHumidity: " + humidity + "\nPressure: " + pressure + "\nWind Speed: " + windSpeed));
         } catch (Exception e) {
