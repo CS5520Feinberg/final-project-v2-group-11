@@ -1,5 +1,6 @@
 package com.example.numad23su_gourpv2_11;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -20,9 +21,10 @@ import java.net.URL;
 public class SecondActivity extends AppCompatActivity {
     private static final String API_KEY = "41233304fa73bb4fed2ae9064a5ab935";
     private EditText cityName;
-    private Button fetchButton;
-    private TextView resultTextView;
     private ProgressBar progressBar;
+
+    private TextView cityNameResult, temperatureResult, humidityresult, pressureResult,
+            windspeedResult;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,8 +32,13 @@ public class SecondActivity extends AppCompatActivity {
         setContentView(R.layout.activity_second);
 
         cityName = findViewById(R.id.city_name);
-        fetchButton = findViewById(R.id.fetch_button);
-        resultTextView = findViewById(R.id.result_text_view);
+        Button fetchButton = findViewById(R.id.fetch_button);
+        cityNameResult = findViewById(R.id.cityNameResult);
+        temperatureResult = findViewById(R.id.temperatureResult);
+        humidityresult = findViewById(R.id.humidityResult);
+        pressureResult = findViewById(R.id.pressureResult);
+        windspeedResult = findViewById(R.id.windspeedResult);
+
         progressBar = findViewById(R.id.progress_circular);
 
         fetchButton.setOnClickListener(view -> fetchWeatherData());
@@ -63,6 +70,7 @@ public class SecondActivity extends AppCompatActivity {
         thread.start();
     }
 
+    @SuppressLint("SetTextI18n")
     private void parseJsonData(String jsonData) {
         try {
             JSONObject obj = new JSONObject(jsonData);
@@ -76,7 +84,12 @@ public class SecondActivity extends AppCompatActivity {
 
             final String cityName = obj.getString("name");
 
-            runOnUiThread(() -> resultTextView.setText("City: " + cityName + "\nTemperature: " + temperature + "\nHumidity: " + humidity + "\nPressure: " + pressure + "\nWind Speed: " + windSpeed));
+            runOnUiThread(() -> cityNameResult.setText("City: " + cityName));
+            runOnUiThread(() -> temperatureResult.setText("Temperature: " + temperature));
+            runOnUiThread(() -> humidityresult.setText("City: " + humidity));
+            runOnUiThread(() -> pressureResult.setText("City: " + pressure));
+            runOnUiThread(() -> windspeedResult.setText("City: " + windSpeed));
+            //runOnUiThread(() -> resultTextView.setText("City: " + cityName + "\nTemperature: " + temperature + "\nHumidity: " + humidity + "\nPressure: " + pressure + "\nWind Speed: " + windSpeed));
         } catch (Exception e) {
             Log.e("SecondActivity", "Error parsing JSON", e);
         }
