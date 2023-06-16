@@ -1,36 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp">
-
-    <EditText
-        android:id="@+id/city_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/enter_city_name"
-        android:inputType="text"
-        android:minHeight="48dp" />
+    tools:context=".SecondActivity">
 
     <Button
         android:id="@+id/fetch_button"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/fetch_weather_data" />
+        android:text="Fetch Dog Image"
+        android:layout_centerHorizontal="true" />
+
+    <ImageView
+        android:id="@+id/result_image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/fetch_button"
+        android:layout_centerHorizontal="true" />
 
     <ProgressBar
         android:id="@+id/progress_circular"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:visibility="gone" />
-
-    <TextView
-        android:id="@+id/result_text_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:paddingTop="16dp" />
-
-</LinearLayout>
+        android:layout_centerInParent="true"
+        android:visibility="gone"/>
+</RelativeLayout>

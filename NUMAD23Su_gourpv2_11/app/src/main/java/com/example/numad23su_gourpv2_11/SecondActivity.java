@@ -1,27 +1,26 @@
 package com.example.numad23su_gourpv2_11;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class SecondActivity extends AppCompatActivity {
-    private static final String API_KEY = "805749b9bcdde60cbe02310708cdfe0c";
-    private EditText cityName;
     private Button fetchButton;
-    private TextView resultTextView;
+    private ImageView resultImageView;
     private ProgressBar progressBar;
 
     @Override
@@ -29,34 +28,37 @@ public class SecondActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_second);
 
-        cityName = findViewById(R.id.city_name);
         fetchButton = findViewById(R.id.fetch_button);
-        resultTextView = findViewById(R.id.result_text_view);
+        resultImageView = findViewById(R.id.result_image_view);
         progressBar = findViewById(R.id.progress_circular);
 
-        fetchButton.setOnClickListener(view -> fetchWeatherData());
+        fetchButton.setOnClickListener(view -> fetchDogImage());
     }
 
-    private void fetchWeatherData() {
-        String city = cityName.getText().toString();
-
+    private void fetchDogImage() {
         Thread thread = new Thread(() -> {
             try {
                 runOnUiThread(() -> progressBar.setVisibility(View.VISIBLE));
-                URL url = new URL("http://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + API_KEY);
+                URL url = new URL("https://dog.ceo/api/breeds/image/random");
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestMethod("GET");
-                BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                String line;
-                StringBuilder result = new StringBuilder();
-                while ((line = rd.readLine()) != null) {
-                    result.append(line);
-                }
-                rd.close();
-                parseJsonData(result.toString());
+
+                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                String line = reader.readLine();
+
+                JSONObject response = new JSONObject(line);
+                String imageUrl = response.getString("message");
+
+                InputStream in = new URL(imageUrl).openStream();
+                final Bitmap bmp = BitmapFactory.decodeStream(in);
+                in.close();
+
+                runOnUiThread(() -> {
+                    resultImageView.setImageBitmap(bmp);
+                    progressBar.setVisibility(View.GONE);
+                });
             } catch (Exception e) {
-                Log.e("SecondActivity", "Error fetching weather data", e);
-            } finally {
+                e.printStackTrace();
                 runOnUiThread(() -> progressBar.setVisibility(View.GONE));
             }
         });
@@ -64,16 +66,5 @@ public class SecondActivity extends AppCompatActivity {
     }
 
 
-    private void parseJsonData(String jsonData) {
-        try {
-            JSONObject obj = new JSONObject(jsonData);
-            JSONObject main = obj.getJSONObject("main");
-            final String temperature = main.getString("temp");
-            final String humidity = main.getString("humidity");
 
-            runOnUiThread(() -> resultTextView.setText("Temperature: " + temperature + "\n" + "Humidity: " + humidity));
-        } catch (Exception e) {
-            Log.e("SecondActivity", "Error parsing JSON", e);
-        }
-    }
 }
