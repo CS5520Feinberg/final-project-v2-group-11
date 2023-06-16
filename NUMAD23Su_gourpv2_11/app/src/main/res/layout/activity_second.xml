@@ -145,6 +145,7 @@
         android:id="@+id/errorImage"
         android:layout_width="95dp"
         android:layout_height="82dp"
+        android:background="#090909"
         android:contentDescription="@string/todo"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"

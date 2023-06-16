@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -93,6 +94,7 @@ public class SecondActivity extends AppCompatActivity {
 
                 runOnUiThread(() -> errorImage.setVisibility(View.VISIBLE));
                 Snackbar.make(findViewById(R.id.linearLayout), "The city does not exist", Snackbar.LENGTH_LONG).show();
+                //Toast.makeText(SecondActivity.this, "The city does not exist", Toast.LENGTH_LONG).show();
             } finally {
                 runOnUiThread(() -> progressBar.setVisibility(View.GONE));
             }
