@@ -65,6 +65,11 @@ public class SecondActivity extends AppCompatActivity {
                 parseJsonData(result.toString());
             } catch (Exception e) {
                 Log.e("SecondActivity", "Error fetching weather data", e);
+                runOnUiThread(() -> cityNameResult.setText(""));
+                runOnUiThread(() -> temperatureResult.setText(""));
+                runOnUiThread(() -> humidityresult.setText(""));
+                runOnUiThread(() -> pressureResult.setText(""));
+                runOnUiThread(() -> windspeedResult.setText(""));
                 Snackbar.make(SecondActivity.this.getCurrentFocus(), "The city does not exist", Snackbar.LENGTH_LONG).show();
             } finally {
                 runOnUiThread(() -> progressBar.setVisibility(View.GONE));
@@ -89,9 +94,9 @@ public class SecondActivity extends AppCompatActivity {
 
             runOnUiThread(() -> cityNameResult.setText("City: " + cityName));
             runOnUiThread(() -> temperatureResult.setText("Temperature: " + temperature));
-            runOnUiThread(() -> humidityresult.setText("City: " + humidity));
-            runOnUiThread(() -> pressureResult.setText("City: " + pressure));
-            runOnUiThread(() -> windspeedResult.setText("City: " + windSpeed));
+            runOnUiThread(() -> humidityresult.setText("Humidity: " + humidity));
+            runOnUiThread(() -> pressureResult.setText("Pressure: " + pressure));
+            runOnUiThread(() -> windspeedResult.setText("Wind Speed: " + windSpeed));
             //runOnUiThread(() -> resultTextView.setText("City: " + cityName + "\nTemperature: " + temperature + "\nHumidity: " + humidity + "\nPressure: " + pressure + "\nWind Speed: " + windSpeed));
         } catch (Exception e) {
             Log.e("SecondActivity", "Error parsing JSON", e);
