@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -63,6 +65,7 @@ public class SecondActivity extends AppCompatActivity {
                 parseJsonData(result.toString());
             } catch (Exception e) {
                 Log.e("SecondActivity", "Error fetching weather data", e);
+                Snackbar.make(SecondActivity.this.getCurrentFocus(), "The city does not exist", Snackbar.LENGTH_LONG).show();
             } finally {
                 runOnUiThread(() -> progressBar.setVisibility(View.GONE));
             }
