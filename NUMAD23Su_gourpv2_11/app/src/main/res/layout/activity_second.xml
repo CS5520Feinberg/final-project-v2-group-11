@@ -1,221 +1,229 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/linearLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fillViewport="true">
 
-    <EditText
-        android:id="@+id/city_name"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:hint="@string/enter_city_name"
-        android:importantForAutofill="no"
-        android:inputType="text"
-        android:textColorHint="#8D6E63"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/fetch_button"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/fetch_weather_data"
-        app:layout_constraintEnd_toEndOf="@id/city_name"
-        app:layout_constraintStart_toStartOf="@id/city_name"
-        app:layout_constraintTop_toBottomOf="@id/city_name" />
+        <EditText
+            android:id="@+id/city_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:hint="@string/enter_city_name"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:textColorHint="#8D6E63"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <ProgressBar
-        android:id="@+id/progress_circular"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/fetch_button" />
+        <Button
+            android:id="@+id/fetch_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/fetch_weather_data"
+            app:layout_constraintEnd_toEndOf="@id/city_name"
+            app:layout_constraintStart_toStartOf="@id/city_name"
+            app:layout_constraintTop_toBottomOf="@id/city_name" />
 
-    <ImageView
-        android:id="@+id/cityImages"
-        android:layout_width="28dp"
-        android:layout_height="28dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/cityNameResult"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/cityNameResult"
-        app:srcCompat="@drawable/city_foreground"
-        android:contentDescription="@string/todo1" />
+        <ProgressBar
+            android:id="@+id/progress_circular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/fetch_button" />
 
-    <TextView
-        android:id="@+id/cityNameResult"
-        android:layout_width="0dp"
-        android:layout_height="24dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/cityImages"
-        app:layout_constraintTop_toBottomOf="@id/progress_circular" />
+        <ImageView
+            android:id="@+id/cityImages"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:contentDescription="@string/todo1"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/cityNameResult"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/cityNameResult"
+            app:srcCompat="@drawable/city_foreground" />
 
-    <ImageView
-        android:id="@+id/temperatureImage"
-        android:layout_width="28dp"
-        android:layout_height="28dp"
-        android:visibility="gone"
-        android:contentDescription="@string/tempImage"
-        app:layout_constraintBottom_toBottomOf="@+id/temperatureResult"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/temperatureResult"
-        app:srcCompat="@drawable/temperature_foreground" />
+        <TextView
+            android:id="@+id/cityNameResult"
+            android:layout_width="0dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="32dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/cityImages"
+            app:layout_constraintTop_toBottomOf="@id/progress_circular" />
 
-    <TextView
-        android:id="@+id/temperatureResult"
-        android:layout_width="0dp"
-        android:layout_height="24dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/temperatureImage"
-        app:layout_constraintTop_toBottomOf="@+id/cityNameResult" />
+        <ImageView
+            android:id="@+id/temperatureImage"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:contentDescription="@string/tempImage"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/temperatureResult"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/temperatureResult"
+            app:srcCompat="@drawable/temperature_foreground" />
 
-    <ImageView
-        android:id="@+id/humidityImage"
-        android:layout_width="28dp"
-        android:layout_height="28dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/humidityResult"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/humidityResult"
-        app:srcCompat="@drawable/humidity_foreground" />
+        <TextView
+            android:id="@+id/temperatureResult"
+            android:layout_width="0dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="32dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/temperatureImage"
+            app:layout_constraintTop_toBottomOf="@+id/cityNameResult" />
 
-    <TextView
-        android:id="@+id/humidityResult"
-        android:layout_width="0dp"
-        android:layout_height="24dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/humidityImage"
-        app:layout_constraintTop_toBottomOf="@+id/temperatureResult" />
+        <ImageView
+            android:id="@+id/humidityImage"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/humidityResult"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/humidityResult"
+            app:srcCompat="@drawable/humidity_foreground" />
 
-    <ImageView
-        android:id="@+id/pressureImage"
-        android:layout_width="28dp"
-        android:layout_height="28dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/pressureResult"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/pressureResult"
-        app:srcCompat="@drawable/pressure_foreground"
-        tools:ignore="ContentDescription" />
+        <TextView
+            android:id="@+id/humidityResult"
+            android:layout_width="0dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="32dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/humidityImage"
+            app:layout_constraintTop_toBottomOf="@+id/temperatureResult" />
 
-    <TextView
-        android:id="@+id/pressureResult"
-        android:layout_width="0dp"
-        android:layout_height="32dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/pressureImage"
-        app:layout_constraintTop_toBottomOf="@+id/humidityResult" />
+        <ImageView
+            android:id="@+id/pressureImage"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/pressureResult"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/pressureResult"
+            app:srcCompat="@drawable/pressure_foreground"
+            tools:ignore="ContentDescription" />
 
-    <ImageView
-        android:id="@+id/wspImage"
-        android:layout_width="28dp"
-        android:layout_height="28dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/windspeedResult"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/windspeedResult"
-        app:srcCompat="@drawable/wsp_foreground" />
+        <TextView
+            android:id="@+id/pressureResult"
+            android:layout_width="0dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="32dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/pressureImage"
+            app:layout_constraintTop_toBottomOf="@+id/humidityResult" />
 
-    <TextView
-        android:id="@+id/windspeedResult"
-        android:layout_width="0dp"
-        android:layout_height="24dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/wspImage"
-        app:layout_constraintTop_toBottomOf="@+id/pressureResult" />
+        <ImageView
+            android:id="@+id/wspImage"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/windspeedResult"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/windspeedResult"
+            app:srcCompat="@drawable/wsp_foreground" />
 
-    <ImageView
-        android:id="@+id/tempminimage"
-        android:layout_width="28dp"
-        android:layout_height="28dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/tempMinResult"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tempMinResult"
-        app:srcCompat="@drawable/tempminimum_foreground" />
+        <TextView
+            android:id="@+id/windspeedResult"
+            android:layout_width="0dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="32dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/wspImage"
+            app:layout_constraintTop_toBottomOf="@+id/pressureResult" />
 
-    <TextView
-        android:id="@+id/tempMinResult"
-        android:layout_width="0dp"
-        android:layout_height="24dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tempminimage"
-        app:layout_constraintTop_toBottomOf="@+id/windspeedResult" />
+        <ImageView
+            android:id="@+id/tempminimage"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/tempMinResult"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tempMinResult"
+            app:srcCompat="@drawable/tempminimum_foreground" />
 
-    <ImageView
-        android:id="@+id/tempmaximage"
-        android:layout_width="28dp"
-        android:layout_height="28dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/tempMaxResult"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tempMaxResult"
-        app:srcCompat="@drawable/tempmaximum_foreground"
-        tools:ignore="ContentDescription" />
+        <TextView
+            android:id="@+id/tempMinResult"
+            android:layout_width="0dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="32dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tempminimage"
+            app:layout_constraintTop_toBottomOf="@+id/windspeedResult" />
 
-    <TextView
-        android:id="@+id/tempMaxResult"
-        android:layout_width="0dp"
-        android:layout_height="24dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tempmaximage"
-        app:layout_constraintTop_toBottomOf="@+id/tempMinResult" />
+        <ImageView
+            android:id="@+id/tempmaximage"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/tempMaxResult"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tempMaxResult"
+            app:srcCompat="@drawable/tempmaximum_foreground"
+            tools:ignore="ContentDescription" />
 
-    <ImageView
-        android:id="@+id/feelslikeimage"
-        android:layout_width="28dp"
-        android:layout_height="28dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/feelsLikeResult"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/feelsLikeResult"
-        app:srcCompat="@drawable/feelslike_foreground" />
+        <TextView
+            android:id="@+id/tempMaxResult"
+            android:layout_width="0dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="32dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tempmaximage"
+            app:layout_constraintTop_toBottomOf="@+id/tempMinResult" />
 
-    <TextView
-        android:id="@+id/feelsLikeResult"
-        android:layout_width="0dp"
-        android:layout_height="24dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/feelslikeimage"
-        app:layout_constraintTop_toBottomOf="@+id/tempMaxResult" />
+        <ImageView
+            android:id="@+id/feelslikeimage"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/feelsLikeResult"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/feelsLikeResult"
+            app:srcCompat="@drawable/feelslike_foreground" />
+
+        <TextView
+            android:id="@+id/feelsLikeResult"
+            android:layout_width="0dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="32dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/feelslikeimage"
+            app:layout_constraintTop_toBottomOf="@+id/tempMaxResult" />
 
 
-    <ImageView
-        android:id="@+id/errorImage"
-        android:layout_width="95dp"
-        android:layout_height="82dp"
-        android:background="#090909"
-        android:contentDescription="@string/todo"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.377"
-        app:srcCompat="@android:drawable/stat_notify_error" />
+        <ImageView
+            android:id="@+id/errorImage"
+            android:layout_width="95dp"
+            android:layout_height="82dp"
+            android:background="#090909"
+            android:contentDescription="@string/todo"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.377"
+            app:srcCompat="@android:drawable/stat_notify_error" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
