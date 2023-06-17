@@ -48,7 +48,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/cityNameResult"
         app:srcCompat="@drawable/city_foreground"
-        android:contentDescription="TODO" />
+        android:contentDescription="@string/todo1" />
 
     <TextView
         android:id="@+id/cityNameResult"
@@ -109,7 +109,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/pressureResult"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/pressureResult"
-        app:srcCompat="@drawable/pressure_foreground" />
+        app:srcCompat="@drawable/pressure_foreground"
+        tools:ignore="ContentDescription" />
 
     <TextView
         android:id="@+id/pressureResult"
@@ -140,6 +141,68 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/wspImage"
         app:layout_constraintTop_toBottomOf="@+id/pressureResult" />
+
+    <ImageView
+        android:id="@+id/tempminimage"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/tempMinResult"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tempMinResult"
+        app:srcCompat="@drawable/tempminimum_foreground" />
+
+    <TextView
+        android:id="@+id/tempMinResult"
+        android:layout_width="0dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tempminimage"
+        app:layout_constraintTop_toBottomOf="@+id/windspeedResult" />
+
+    <ImageView
+        android:id="@+id/tempmaximage"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/tempMaxResult"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tempMaxResult"
+        app:srcCompat="@drawable/tempmaximum_foreground"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/tempMaxResult"
+        android:layout_width="0dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tempmaximage"
+        app:layout_constraintTop_toBottomOf="@+id/tempMinResult" />
+
+    <ImageView
+        android:id="@+id/feelslikeimage"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/feelsLikeResult"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/feelsLikeResult"
+        app:srcCompat="@drawable/feelslike_foreground" />
+
+    <TextView
+        android:id="@+id/feelsLikeResult"
+        android:layout_width="0dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/feelslikeimage"
+        app:layout_constraintTop_toBottomOf="@+id/tempMaxResult" />
+
 
     <ImageView
         android:id="@+id/errorImage"
