@@ -7,4 +7,5 @@
     <string name="fetch_weather_data">Fetch Weather Data</string>
     <string name="todo">TODO</string>
     <string name="tempImage">TODO</string>
+    <string name="weather_forecast">Weather Forecast</string>
 </resources>
