@@ -5,4 +5,8 @@
     <string name="welcome_to_second_activity">Welcome to Second Activity</string>
     <string name="enter_city_name">Enter City Name</string>
     <string name="fetch_weather_data">Fetch Weather Data</string>
+    <string name="todo">TODO</string>
+    <string name="tempImage">TODO</string>
+    <string name="weather_forecast">Weather Forecast</string>
+    <string name="todo1">TODO</string>
 </resources>
