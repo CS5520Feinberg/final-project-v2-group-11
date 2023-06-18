@@ -13,6 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -34,6 +35,7 @@ public class SecondActivity extends AppCompatActivity {
 
     private TextView cityNameResult, temperatureResult, humidityresult, pressureResult,
             windspeedResult, tempMinResult, tempMaxResult, feelsLikeResult;
+    private String parsedString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,8 +75,21 @@ public class SecondActivity extends AppCompatActivity {
             }
             fetchWeatherData();
         });
+
     }
 
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("parsedString", this.parsedString);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState){
+        super.onRestoreInstanceState(savedInstanceState);
+        this.parsedString = savedInstanceState.getString("parsedString");
+        parseJsonData(this.parsedString);
+    }
     private void fetchWeatherData() {
         String city = cityName.getText().toString();
 
@@ -91,7 +106,8 @@ public class SecondActivity extends AppCompatActivity {
                     result.append(line);
                 }
                 rd.close();
-                parseJsonData(result.toString());
+                this.parsedString = result.toString();
+                parseJsonData(this.parsedString);
             } catch (Exception e) {
                 Log.e("SecondActivity", "Error fetching weather data", e);
 
@@ -169,8 +185,6 @@ public class SecondActivity extends AppCompatActivity {
 
             runOnUiThread(() -> wspImage.setVisibility(View.VISIBLE));
             runOnUiThread(() -> windspeedResult.setText("Wind Speed: " + windSpeed));
-
-
 
             runOnUiThread(() -> errorImage.setVisibility(View.GONE));
             //runOnUiThread(() -> resultTextView.setText("City: " + cityName + "\nTemperature: " + temperature + "\nHumidity: " + humidity + "\nPressure: " + pressure + "\nWind Speed: " + windSpeed));
