@@ -137,7 +137,6 @@ public class SecondActivity extends AppCompatActivity {
 
                 runOnUiThread(() -> errorImage.setVisibility(View.VISIBLE));
                 Snackbar.make(findViewById(R.id.linearLayout), "The city does not exist", Snackbar.LENGTH_LONG).show();
-                //Toast.makeText(SecondActivity.this, "The city does not exist", Toast.LENGTH_LONG).show();
             } finally {
                 runOnUiThread(() -> progressBar.setVisibility(View.GONE));
             }
@@ -187,7 +186,6 @@ public class SecondActivity extends AppCompatActivity {
             runOnUiThread(() -> windspeedResult.setText("Wind Speed: " + windSpeed));
 
             runOnUiThread(() -> errorImage.setVisibility(View.GONE));
-            //runOnUiThread(() -> resultTextView.setText("City: " + cityName + "\nTemperature: " + temperature + "\nHumidity: " + humidity + "\nPressure: " + pressure + "\nWind Speed: " + windSpeed));
         } catch (Exception e) {
             Log.e("SecondActivity", "Error parsing JSON", e);
         }
