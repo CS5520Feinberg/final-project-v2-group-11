@@ -10,4 +10,6 @@
     <string name="weather_forecast">Weather Forecast</string>
     <string name="todo1">TODO</string>
     <string name="stick_it_to_em">stick_it_to_em</string>
+    <string name="login">Login</string>
+    <string name="enter_the_username">Enter the Username</string>
 </resources>
