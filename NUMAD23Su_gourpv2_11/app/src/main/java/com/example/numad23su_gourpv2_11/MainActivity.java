@@ -1,10 +1,10 @@
 package com.example.numad23su_gourpv2_11;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.widget.Button;
+        import android.content.Intent;
+        import android.os.Bundle;
+        import android.widget.Button;
 
-import androidx.appcompat.app.AppCompatActivity;
+        import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -14,9 +14,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Button openSecondActivityButton = findViewById(R.id.button_open_second_activity);
+        Button stickItToEmBtn = findViewById(R.id.stickItToEmButton);
+
         openSecondActivityButton.setOnClickListener(view -> {
             Intent intent = new Intent(MainActivity.this, SecondActivity.class);
             startActivity(intent);
+        });
+
+        stickItToEmBtn.setOnClickListener(view -> {
+            Intent intent1 = new Intent(MainActivity.this, StickItToEm.class);
+            startActivity(intent1);
         });
     }
 }
