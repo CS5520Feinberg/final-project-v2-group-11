@@ -39,7 +39,9 @@ public class StickItToEm extends AppCompatActivity {
     }
 
     public void login (String username) {
-        mDatabase.child("users").child(username).setValue(true);
+        mDatabase.child("users").child(username).child("username").setValue(username);
+        mDatabase.child("users").child(username).child("name").setValue("");
+        mDatabase.child("users").child(username).child("email").setValue("");
 
         // Save username in shared preferences
         SharedPreferences prefs = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE);

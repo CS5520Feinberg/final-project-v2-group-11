@@ -59,7 +59,7 @@ public class LoginButtonClicked extends AppCompatActivity {
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
-        currentUser = sharedPrefs.getString("username", "");
+        currentUser = sharedPrefs.getString("username", "userCannotBeFound");
         currentUserTextView.setText(currentUser + " is signed in.");
         friendList = new ArrayList<>();
 
