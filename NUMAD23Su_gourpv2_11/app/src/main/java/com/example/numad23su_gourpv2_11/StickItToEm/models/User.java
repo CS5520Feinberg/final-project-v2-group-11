@@ -1,4 +1,4 @@
-package com.example.numad23su_gourpv2_11;
+package com.example.numad23su_gourpv2_11.StickItToEm.models;
 
 public class User {
 

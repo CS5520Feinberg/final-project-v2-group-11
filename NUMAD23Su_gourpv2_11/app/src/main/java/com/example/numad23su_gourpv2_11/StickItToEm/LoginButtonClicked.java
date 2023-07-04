@@ -1,4 +1,4 @@
-package com.example.numad23su_gourpv2_11;
+package com.example.numad23su_gourpv2_11.StickItToEm;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -9,11 +9,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.numad23su_gourpv2_11.R;
+import com.example.numad23su_gourpv2_11.StickItToEm.adapters.ListAdapter;
+import com.example.numad23su_gourpv2_11.StickItToEm.models.Message;
+import com.example.numad23su_gourpv2_11.StickItToEm.models.User;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -28,7 +31,6 @@ import java.util.List;
 public class LoginButtonClicked extends AppCompatActivity {
 
     private DatabaseReference mDatabase;
-
     private ListAdapter friendAdapter;
 
     private RecyclerView friendRecycler;
@@ -47,6 +49,8 @@ public class LoginButtonClicked extends AppCompatActivity {
     private TextView currentUserTextView;
 
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,10 +61,10 @@ public class LoginButtonClicked extends AppCompatActivity {
 
         friendRecycler = findViewById(R.id.friendList);
 
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-
-        currentUser = sharedPrefs.getString("username", "userCannotBeFound");
+        SharedPreferences sharedPrefs = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE);
+        currentUser = sharedPrefs.getString("username", "USERNAME_COULD_NOT_BE_FOUND");
         currentUserTextView.setText(currentUser + " is signed in.");
+
         friendList = new ArrayList<>();
 
         friendAdapter = new ListAdapter(this, friendList);

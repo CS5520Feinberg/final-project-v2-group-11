@@ -1,9 +1,11 @@
-package com.example.numad23su_gourpv2_11;
+package com.example.numad23su_gourpv2_11.StickItToEm;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.widget.TextView;
+
+import com.example.numad23su_gourpv2_11.R;
 
 import java.util.HashMap;
 
