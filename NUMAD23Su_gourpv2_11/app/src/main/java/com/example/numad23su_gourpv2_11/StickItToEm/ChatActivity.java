@@ -15,6 +15,8 @@ import com.example.numad23su_gourpv2_11.StickItToEm.models.Message;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.time.Instant;
+import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
@@ -79,7 +81,9 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void RecordImage(String current_username, String friend_username, int imageType) {
-        String nowTime =String.valueOf(LocalDateTime.now().toEpochSecond(ZoneOffset.UTC));
-        mDatabase.child("messages").child(nowTime).child(current_username).child(friend_username).child("imageType").setValue(imageType);
+        LocalDateTime localDateTime = LocalDateTime.now();
+        Instant instant = localDateTime.atZone(ZoneId.systemDefault()).toInstant();
+        String nowTime =String.valueOf(instant.toEpochMilli());
+        mDatabase.child("messages").child(current_username).child(friend_username).child(nowTime).child("imageType").setValue(imageType);
     }
 }
