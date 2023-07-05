@@ -2,13 +2,13 @@ package com.example.numad23su_gourpv2_11.StickItToEm.models;
 
 public class MessageModel {
 
-    public String sender;
-    public String receiver;
-    public String sticker;
+    private String sender;
+    private String receiver;
+    private String sticker;
 
     private byte[] stickerImg;
 
-    public long timestamp;
+    private long timestamp;
 
     public MessageModel() {}
 

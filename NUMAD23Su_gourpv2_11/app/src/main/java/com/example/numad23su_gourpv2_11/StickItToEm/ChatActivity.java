@@ -1,6 +1,7 @@
 package com.example.numad23su_gourpv2_11.StickItToEm;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -8,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.provider.ContactsContract;
+import android.util.Log;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -23,8 +26,10 @@ import com.google.firebase.database.ValueEventListener;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.time.LocalDateTime;
+import java.util.Map;
 
 public class ChatActivity extends AppCompatActivity {
 
@@ -92,10 +97,13 @@ public class ChatActivity extends AppCompatActivity {
         LocalDateTime localDateTime = LocalDateTime.now();
         Instant instant = localDateTime.atZone(ZoneId.systemDefault()).toInstant();
         long nowTime = instant.toEpochMilli();
-        mDatabase.child("messages").child(String.valueOf(nowTime)).child("sender").setValue(current_username);
-        mDatabase.child("messages").child(String.valueOf(nowTime)).child("receiver").setValue(friend_username);
-        mDatabase.child("messages").child(String.valueOf(nowTime)).child("sticker").setValue(imageType);
-        mDatabase.child("messages").child(String.valueOf(nowTime)).child("timestamp").setValue(nowTime);
+        Map<String, Object> message = new HashMap<>();
+        message.put("sender", current_username);
+        message.put("receiver", friend_username);
+        message.put("sticker", imageType);
+        message.put("timestamp", nowTime);
+
+        mDatabase.child("messages").child(String.valueOf(nowTime)).setValue(message);
     }
 
     ValueEventListener valueEventListener = new ValueEventListener() {
