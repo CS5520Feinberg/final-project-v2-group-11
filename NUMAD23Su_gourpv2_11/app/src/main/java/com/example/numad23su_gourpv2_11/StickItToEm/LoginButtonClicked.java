@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.example.numad23su_gourpv2_11.R;
 import com.example.numad23su_gourpv2_11.StickItToEm.adapters.ListAdapter;
-import com.example.numad23su_gourpv2_11.StickItToEm.models.Message;
+import com.example.numad23su_gourpv2_11.StickItToEm.models.MessageModel;
 import com.example.numad23su_gourpv2_11.StickItToEm.models.User;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -112,15 +112,16 @@ public class LoginButtonClicked extends AppCompatActivity {
         mDatabase.child("messages").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                List<Message> messages = new ArrayList<>();
-                List<Message> receivedMsg = new ArrayList<>();
+                List<MessageModel> messageModels = new ArrayList<>();
+                List<MessageModel> receivedMsg = new ArrayList<>();
                 for (DataSnapshot dataSnapshot: snapshot.getChildren()) {
-                    Message msg = dataSnapshot.getValue(Message.class);
+                    MessageModel msg = dataSnapshot.getValue(MessageModel.class);
                     if(msg.getReceiver() != null && msg.getReceiver().equals(currentUser)){
                         receivedMsg.add(msg);
                     }
                     if (msg.getSender() != null && msg.getSender().equals(currentUser)) {
-                        messages.add(msg);
+                        Log.d("some tag",msg.toString());
+                        messageModels.add(msg);
                     }
                 }
                 List<String> stickers = new ArrayList<>();
@@ -130,7 +131,7 @@ public class LoginButtonClicked extends AppCompatActivity {
                 stickers.add("2131165304");
 
                 for (String sticker: stickers) {
-                    int count = countNumStickers(messages, sticker);
+                    int count = countNumStickers(messageModels, sticker);
                     stickerNum.put(sticker, count);
                     Log.d(activityName, "Sticker: " + sticker);
                 }
@@ -158,9 +159,11 @@ public class LoginButtonClicked extends AppCompatActivity {
         });
     }
 
-    public int countNumStickers(List<Message> messages, String sticker) {
+    public int countNumStickers(List<MessageModel> messageModels, String sticker) {
         int num = 0;
-        for (Message msg : messages) {
+
+        for (MessageModel msg : messageModels) {
+            Log.d("some tag", msg.toString());
             if (msg.getSticker().equals(sticker) && msg.getSticker() != null) {
                 num++;
             }

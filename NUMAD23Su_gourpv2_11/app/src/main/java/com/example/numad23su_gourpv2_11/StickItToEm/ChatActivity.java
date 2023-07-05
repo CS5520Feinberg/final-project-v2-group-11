@@ -1,23 +1,27 @@
 package com.example.numad23su_gourpv2_11.StickItToEm;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.numad23su_gourpv2_11.R;
-import com.example.numad23su_gourpv2_11.StickItToEm.models.Message;
+import com.example.numad23su_gourpv2_11.StickItToEm.adapters.ChatRecyclerAdapter;
+import com.example.numad23su_gourpv2_11.StickItToEm.models.MessageModel;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.time.Instant;
 import java.time.ZoneId;
-import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 import java.time.LocalDateTime;
@@ -38,9 +42,12 @@ public class ChatActivity extends AppCompatActivity {
 
     private ImageButton laugh_button;
 
-    private List<Message> messages;
+    private List<MessageModel> messageModels;
     private String current_username;
     private String friend_username;
+
+    private ChatRecyclerAdapter adapter;
+   // private StickerAdapter stickerAdapter;
 
 
     @Override
@@ -49,7 +56,7 @@ public class ChatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chat);
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
-        messages = new ArrayList<Message>();
+        messageModels = new ArrayList<MessageModel>();
         chatRecyclerView = findViewById(R.id.recyclerview_messages);
         FriendUsername = findViewById(R.id.username_of_friend_message);
         smile_button = findViewById(R.id.smile_button);
@@ -62,28 +69,51 @@ public class ChatActivity extends AppCompatActivity {
 
         SharedPreferences sharedPrefs = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE);
         current_username = sharedPrefs.getString("username", "USERNAME_COULD_NOT_BE_FOUND");
-        //Log.d("some tag", "textSetter: |" + textSetter + "|");
         FriendUsername.setText(friend_username);
-       // Log.d("some tag", "afterTextSet");
         smile_button.setOnClickListener(view -> {
-            RecordImage(current_username, friend_username, 2131165428);
+            RecordImage(current_username, friend_username, "2131165428");
         });
         angry_button.setOnClickListener(view -> {
-            RecordImage(current_username, friend_username, 2131165356);
+            RecordImage(current_username, friend_username, "2131165356");
         });
         crying_button.setOnClickListener(view -> {
-            RecordImage(current_username, friend_username, 2131165334);
+            RecordImage(current_username, friend_username, "2131165334");
         });
         laugh_button.setOnClickListener(view -> {
-            RecordImage(current_username, friend_username, 2131165304);
+            RecordImage(current_username, friend_username, "2131165304");
         });
+        adapter = new ChatRecyclerAdapter(this, messageModels, current_username, friend_username, chatRecyclerView);
+        chatRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        chatRecyclerView.setAdapter(adapter);
 
     }
 
-    private void RecordImage(String current_username, String friend_username, int imageType) {
+    private void RecordImage(String current_username, String friend_username, String imageType) {
         LocalDateTime localDateTime = LocalDateTime.now();
         Instant instant = localDateTime.atZone(ZoneId.systemDefault()).toInstant();
-        String nowTime =String.valueOf(instant.toEpochMilli());
-        mDatabase.child("messages").child(current_username).child(friend_username).child(nowTime).child("imageType").setValue(imageType);
+        long nowTime = instant.toEpochMilli();
+        mDatabase.child("messages").child(String.valueOf(nowTime)).child("sender").setValue(current_username);
+        mDatabase.child("messages").child(String.valueOf(nowTime)).child("receiver").setValue(friend_username);
+        mDatabase.child("messages").child(String.valueOf(nowTime)).child("sticker").setValue(imageType);
+        mDatabase.child("messages").child(String.valueOf(nowTime)).child("timestamp").setValue(nowTime);
     }
+
+    ValueEventListener valueEventListener = new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            messageModels.clear();
+            if (dataSnapshot.exists()) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    MessageModel msg = snapshot.getValue(MessageModel.class);
+                    messageModels.add(msg);
+                }
+                adapter.notifyDataSetChanged();
+            }
+        }
+
+        @Override
+        public void onCancelled(@NonNull DatabaseError error) {
+
+        }
+    };
 }

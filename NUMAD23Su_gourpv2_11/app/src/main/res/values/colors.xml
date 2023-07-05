@@ -2,4 +2,8 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="chat_sender">#4D9450</color>
+    <color name="chat_receiver">#B88334</color>
+
 </resources>
