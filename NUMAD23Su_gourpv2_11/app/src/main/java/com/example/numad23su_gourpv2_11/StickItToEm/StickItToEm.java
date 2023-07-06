@@ -1,4 +1,4 @@
-package com.example.numad23su_gourpv2_11;
+package com.example.numad23su_gourpv2_11.StickItToEm;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,9 +7,9 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.numad23su_gourpv2_11.R;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -39,7 +39,9 @@ public class StickItToEm extends AppCompatActivity {
     }
 
     public void login (String username) {
-        mDatabase.child("users").child(username).setValue(true);
+        mDatabase.child("users").child(username).child("username").setValue(username);
+        mDatabase.child("users").child(username).child("name").setValue("");
+        mDatabase.child("users").child(username).child("email").setValue("");
 
         // Save username in shared preferences
         SharedPreferences prefs = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE);

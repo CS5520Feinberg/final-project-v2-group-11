@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#DFB0B0"
-    tools:context=".StickItToEm">
+    tools:context=".StickItToEm.StickItToEm">
 
     <Button
         android:id="@+id/loginBtn"

@@ -1,9 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ChatActivity">
+    tools:context=".StickItToEm.ChatActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_view"
+        android:layout_width="match_parent"
+        android:layout_height="51dp">
+
+        <TextView
+            android:id="@+id/username_of_friend_message"
+            android:layout_width="match_parent"
+            android:layout_height="51dp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:autoSizeTextType="uniform"
+            app:layout_constraintBottom_toBottomOf="@id/card_view"
+            app:layout_constraintEnd_toStartOf="@id/card_view"
+            app:layout_constraintStart_toStartOf="@id/card_view"
+            app:layout_constraintTop_toTopOf="@id/card_view" />
+    </androidx.cardview.widget.CardView>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/card_view"
+        android:layout_above="@id/card"
+        >
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview_messages"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/card_view" />
+    </ScrollView>
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_alignParentBottom="true"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="10dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageButton
+                android:id="@+id/smile_button"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_weight="1"
+                android:scaleType="fitXY"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/angry_button"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/smile"
+                tools:layout_editor_absoluteY="22dp" />
+
+            <ImageButton
+                android:id="@+id/angry_button"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_weight="1"
+                android:scaleType="fitXY"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/crying_button"
+                app:layout_constraintStart_toEndOf="@id/smile_button"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/angry"
+                tools:layout_editor_absoluteY="22dp" />
+
+            <ImageButton
+                android:id="@+id/crying_button"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_weight="1"
+                android:scaleType="fitXY"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/laugh_button"
+                app:layout_constraintStart_toEndOf="@id/angry_button"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/crying"
+                tools:layout_editor_absoluteX="22dp"
+                tools:layout_editor_absoluteY="22dp" />
+
+            <ImageButton
+                android:id="@+id/laugh_button"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_weight="1"
+                android:scaleType="fitXY"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/crying_button"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/laugh"
+                tools:layout_editor_absoluteX="22dp"
+                tools:layout_editor_absoluteY="22dp" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+
+
+</RelativeLayout>

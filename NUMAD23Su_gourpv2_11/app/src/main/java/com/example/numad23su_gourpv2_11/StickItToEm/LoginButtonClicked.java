@@ -1,19 +1,28 @@
-package com.example.numad23su_gourpv2_11;
+package com.example.numad23su_gourpv2_11.StickItToEm;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.numad23su_gourpv2_11.R;
+import com.example.numad23su_gourpv2_11.StickItToEm.adapters.ListAdapter;
+import com.example.numad23su_gourpv2_11.StickItToEm.models.MessageModel;
+import com.example.numad23su_gourpv2_11.StickItToEm.models.User;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -28,7 +37,6 @@ import java.util.List;
 public class LoginButtonClicked extends AppCompatActivity {
 
     private DatabaseReference mDatabase;
-
     private ListAdapter friendAdapter;
 
     private RecyclerView friendRecycler;
@@ -47,6 +55,8 @@ public class LoginButtonClicked extends AppCompatActivity {
     private TextView currentUserTextView;
 
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,10 +67,10 @@ public class LoginButtonClicked extends AppCompatActivity {
 
         friendRecycler = findViewById(R.id.friendList);
 
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-
-        currentUser = sharedPrefs.getString("username", "");
+        SharedPreferences sharedPrefs = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE);
+        currentUser = sharedPrefs.getString("username", "USERNAME_COULD_NOT_BE_FOUND");
         currentUserTextView.setText(currentUser + " is signed in.");
+
         friendList = new ArrayList<>();
 
         friendAdapter = new ListAdapter(this, friendList);
@@ -108,15 +118,15 @@ public class LoginButtonClicked extends AppCompatActivity {
         mDatabase.child("messages").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                List<Message> messages = new ArrayList<>();
-                List<Message> receivedMsg = new ArrayList<>();
+                List<MessageModel> messageModels = new ArrayList<>();
+                List<MessageModel> receivedMsg = new ArrayList<>();
                 for (DataSnapshot dataSnapshot: snapshot.getChildren()) {
-                    Message msg = dataSnapshot.getValue(Message.class);
+                    MessageModel msg = dataSnapshot.getValue(MessageModel.class);
                     if(msg.getReceiver() != null && msg.getReceiver().equals(currentUser)){
                         receivedMsg.add(msg);
                     }
                     if (msg.getSender() != null && msg.getSender().equals(currentUser)) {
-                        messages.add(msg);
+                        messageModels.add(msg);
                     }
                 }
                 List<String> stickers = new ArrayList<>();
@@ -126,17 +136,17 @@ public class LoginButtonClicked extends AppCompatActivity {
                 stickers.add("2131165304");
 
                 for (String sticker: stickers) {
-                    int count = countNumStickers(messages, sticker);
+                    int count = countNumStickers(messageModels, sticker);
                     stickerNum.put(sticker, count);
-                    Log.d(activityName, "Sticker: " + sticker);
+                    //Log.d(activityName, "Sticker: " + sticker);
                 }
 
-                Log.d(activityName, "Number of stickers: " + stickerNum);
+                //Log.d(activityName, "Number of stickers: " + stickerNum);
 
                 for (String receivedSticker: stickers) {
                     int receivedCount = countNumStickers(receivedMsg, receivedSticker);
                     receivedNum.put(receivedSticker, receivedCount);
-                    Log.d(activityName, "Received Sticker: " + receivedSticker);
+                    //Log.d(activityName, "Received Sticker: " + receivedSticker);
                 }
 
                 history.setOnClickListener(view -> {
@@ -145,6 +155,13 @@ public class LoginButtonClicked extends AppCompatActivity {
                     intent.putExtra("receivedNum", receivedNum.toString());
                     startActivity(intent);
                 });
+                String lastMsgSender = "";
+                String friendSender = "";
+                for (DataSnapshot Datasnapshot : snapshot.getChildren()) {
+                    lastMsgSender = Datasnapshot.getValue(MessageModel.class).getReceiver();
+                    friendSender = Datasnapshot.getValue(MessageModel.class).getSender();
+                }
+                createNotification(String.format("%s sent you a new sticker in chat", friendSender), lastMsgSender);
             }
 
             @Override
@@ -154,13 +171,36 @@ public class LoginButtonClicked extends AppCompatActivity {
         });
     }
 
-    public int countNumStickers(List<Message> messages, String sticker) {
+    public int countNumStickers(List<MessageModel> messageModels, String sticker) {
         int num = 0;
-        for (Message msg : messages) {
+
+        for (MessageModel msg : messageModels) {
             if (msg.getSticker().equals(sticker) && msg.getSticker() != null) {
                 num++;
             }
         }
         return num;
+    }
+    private void createNotification(String message, String f_username){
+        String CHANNEL_ID = "Chat_channel_01";
+        NotificationManager mNotificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID,
+                    "Chat Notification",
+                    NotificationManager.IMPORTANCE_HIGH);
+            mNotificationManager.createNotificationChannel(channel);
+        }
+        Bitmap res;
+        Context context;
+
+
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setSmallIcon(R.mipmap.ic_launcher_g11_round) // your app icon
+                .setContentTitle("New Sticker")
+                .setContentText(message);
+
+        mNotificationManager.notify(001, mBuilder.build());
     }
 }

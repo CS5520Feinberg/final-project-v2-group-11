@@ -1,4 +1,4 @@
-package com.example.numad23su_gourpv2_11;
+package com.example.numad23su_gourpv2_11.StickItToEm.adapters;
 
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -9,6 +9,10 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.numad23su_gourpv2_11.R;
+import com.example.numad23su_gourpv2_11.StickItToEm.ChatActivity;
+import com.example.numad23su_gourpv2_11.StickItToEm.models.User;
 
 import java.util.List;
 
@@ -37,7 +41,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.FriendHolder> 
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, ChatActivity.class);
-                intent.putExtra("recipient", friendList.get(holder.getAdapterPosition()).getUsername());
+                intent.putExtra("friend", friendList.get(holder.getAdapterPosition()).getUsername());
                 context.startActivity(intent);
             }
         });
