@@ -5,6 +5,8 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.widget.ImageButton;
@@ -13,6 +15,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -93,16 +96,7 @@ public class ChatActivity extends AppCompatActivity {
                     }
                     adapter.notifyDataSetChanged();
                 }
-                String lastItem = "";
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    lastItem = snapshot.getValue(MessageModel.class).getReceiver();
-
-                }
-                //Log.d("HERE IS MESSAGE MODEL UPDATE",String.valueOf(messageModels.size()) + "|=>" +  messageModels.toString());
-                createNotification("You have received a new sticker in chat", lastItem);
-
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
@@ -123,30 +117,5 @@ public class ChatActivity extends AppCompatActivity {
         message.put("timestamp", nowTime);
 
         mDatabase.child(String.valueOf(nowTime)).setValue(message);
-
-        //createNotification("You have received a new sticker in chat");
-    }
-
-    private void createNotification(String message, String f_username){
-//        if(!f_username.equals(current_username)) {
-//            return;
-//        }
-        String CHANNEL_ID = "Chat_channel_01";
-        NotificationManager mNotificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel(CHANNEL_ID,
-                    "Chat Notification",
-                    NotificationManager.IMPORTANCE_HIGH);
-            mNotificationManager.createNotificationChannel(channel);
-        }
-
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setSmallIcon(R.mipmap.ic_launcher_g11_round) // your app icon
-                .setContentTitle("New Sticker")
-                .setContentText(message);
-
-        mNotificationManager.notify(001, mBuilder.build());
     }
 }

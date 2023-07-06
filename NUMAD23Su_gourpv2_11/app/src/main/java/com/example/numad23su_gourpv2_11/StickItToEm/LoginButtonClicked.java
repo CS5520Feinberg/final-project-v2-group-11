@@ -3,11 +3,17 @@ package com.example.numad23su_gourpv2_11.StickItToEm;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -149,6 +155,13 @@ public class LoginButtonClicked extends AppCompatActivity {
                     intent.putExtra("receivedNum", receivedNum.toString());
                     startActivity(intent);
                 });
+                String lastMsgSender = "";
+                String friendSender = "";
+                for (DataSnapshot Datasnapshot : snapshot.getChildren()) {
+                    lastMsgSender = Datasnapshot.getValue(MessageModel.class).getReceiver();
+                    friendSender = Datasnapshot.getValue(MessageModel.class).getSender();
+                }
+                createNotification(String.format("%s sent you a new sticker in chat", friendSender), lastMsgSender);
             }
 
             @Override
@@ -167,5 +180,27 @@ public class LoginButtonClicked extends AppCompatActivity {
             }
         }
         return num;
+    }
+    private void createNotification(String message, String f_username){
+        String CHANNEL_ID = "Chat_channel_01";
+        NotificationManager mNotificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID,
+                    "Chat Notification",
+                    NotificationManager.IMPORTANCE_HIGH);
+            mNotificationManager.createNotificationChannel(channel);
+        }
+        Bitmap res;
+        Context context;
+
+
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setSmallIcon(R.mipmap.ic_launcher_g11_round) // your app icon
+                .setContentTitle("New Sticker")
+                .setContentText(message);
+
+        mNotificationManager.notify(001, mBuilder.build());
     }
 }
