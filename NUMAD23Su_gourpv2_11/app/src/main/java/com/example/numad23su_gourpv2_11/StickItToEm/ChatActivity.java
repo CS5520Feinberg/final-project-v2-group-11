@@ -88,10 +88,14 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 messageModels.clear();
+                chatRecyclerView.scrollToPosition(adapter.getItemCount() - 1);
                 if (dataSnapshot.exists()) {
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         MessageModel msg = snapshot.getValue(MessageModel.class);
-                        messageModels.add(msg);
+                        if((msg.getSender().equals(current_username) && msg.getReceiver().equals(friend_username))
+                                || msg.getSender().equals(friend_username) && msg.getReceiver().equals(current_username)) {
+                            messageModels.add(msg);
+                        }
                     }
                     adapter.notifyDataSetChanged();
                 }
