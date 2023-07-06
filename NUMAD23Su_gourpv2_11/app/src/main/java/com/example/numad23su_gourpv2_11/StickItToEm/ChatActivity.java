@@ -3,11 +3,16 @@ package com.example.numad23su_gourpv2_11.StickItToEm;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.util.Log;
@@ -104,6 +109,28 @@ public class ChatActivity extends AppCompatActivity {
         message.put("timestamp", nowTime);
 
         mDatabase.child("messages").child(String.valueOf(nowTime)).setValue(message);
+
+        createNotification("You have received a new sticker in chat");
+    }
+
+    private void createNotification(String message){
+        String CHANNEL_ID = "Chat_channel_01";
+        NotificationManager mNotificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID,
+                    "Chat Notification",
+                    NotificationManager.IMPORTANCE_HIGH);
+            mNotificationManager.createNotificationChannel(channel);
+        }
+
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setSmallIcon(R.mipmap.ic_launcher_g11_round) // your app icon
+                .setContentTitle("New Sticker")
+                .setContentText(message);
+
+        mNotificationManager.notify(001, mBuilder.build());
     }
 
     ValueEventListener valueEventListener = new ValueEventListener() {
