@@ -1,12 +1,5 @@
 package com.example.numad23su_gourpv2_11.StickItToEm;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
@@ -14,12 +7,15 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.util.Log;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.example.numad23su_gourpv2_11.MainActivity;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.numad23su_gourpv2_11.R;
 import com.example.numad23su_gourpv2_11.StickItToEm.adapters.ChatRecyclerAdapter;
 import com.example.numad23su_gourpv2_11.StickItToEm.models.MessageModel;
@@ -27,20 +23,18 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.time.LocalDateTime;
 import java.util.Map;
 
 public class ChatActivity extends AppCompatActivity {
     private DatabaseReference mDatabase;
-    private TextView FriendUsername;
     private RecyclerView chatRecyclerView;
     private ImageButton smile_button;
     private ImageButton angry_button;
@@ -57,7 +51,7 @@ public class ChatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chat);
         mDatabase = FirebaseDatabase.getInstance().getReference("messages");
         messageModels = new ArrayList<MessageModel>();
-        FriendUsername = findViewById(R.id.username_of_friend_message);
+        TextView friendUsername = findViewById(R.id.username_of_friend_message);
         smile_button = findViewById(R.id.smile_button);
         angry_button = findViewById(R.id.angry_button);
         crying_button = findViewById(R.id.crying_button);
@@ -66,7 +60,7 @@ public class ChatActivity extends AppCompatActivity {
         friend_username = intent.getExtras().getString("friend");
         SharedPreferences sharedPrefs = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE);
         current_username = sharedPrefs.getString("username", "USERNAME_COULD_NOT_BE_FOUND");
-        FriendUsername.setText(friend_username);
+        friendUsername.setText(friend_username);
         smile_button.setOnClickListener(view -> {
             RecordImage(current_username, friend_username, "2131165428");
         });
@@ -99,7 +93,14 @@ public class ChatActivity extends AppCompatActivity {
                     }
                     adapter.notifyDataSetChanged();
                 }
-                Log.d("HERE IS MESSAGE MODEL UPDATE",String.valueOf(messageModels.size()) + "|=>" +  messageModels.toString());
+                String lastItem = "";
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    lastItem = snapshot.getValue(MessageModel.class).getReceiver();
+
+                }
+                //Log.d("HERE IS MESSAGE MODEL UPDATE",String.valueOf(messageModels.size()) + "|=>" +  messageModels.toString());
+                createNotification("You have received a new sticker in chat", lastItem);
+
             }
 
             @Override
@@ -123,10 +124,13 @@ public class ChatActivity extends AppCompatActivity {
 
         mDatabase.child(String.valueOf(nowTime)).setValue(message);
 
-        createNotification("You have received a new sticker in chat");
+        //createNotification("You have received a new sticker in chat");
     }
 
-    private void createNotification(String message){
+    private void createNotification(String message, String f_username){
+//        if(!f_username.equals(current_username)) {
+//            return;
+//        }
         String CHANNEL_ID = "Chat_channel_01";
         NotificationManager mNotificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
