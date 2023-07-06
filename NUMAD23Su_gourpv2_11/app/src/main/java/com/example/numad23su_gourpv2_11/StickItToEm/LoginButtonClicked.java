@@ -120,7 +120,6 @@ public class LoginButtonClicked extends AppCompatActivity {
                         receivedMsg.add(msg);
                     }
                     if (msg.getSender() != null && msg.getSender().equals(currentUser)) {
-                        Log.d("some tag",msg.toString());
                         messageModels.add(msg);
                     }
                 }
@@ -133,15 +132,15 @@ public class LoginButtonClicked extends AppCompatActivity {
                 for (String sticker: stickers) {
                     int count = countNumStickers(messageModels, sticker);
                     stickerNum.put(sticker, count);
-                    Log.d(activityName, "Sticker: " + sticker);
+                    //Log.d(activityName, "Sticker: " + sticker);
                 }
 
-                Log.d(activityName, "Number of stickers: " + stickerNum);
+                //Log.d(activityName, "Number of stickers: " + stickerNum);
 
                 for (String receivedSticker: stickers) {
                     int receivedCount = countNumStickers(receivedMsg, receivedSticker);
                     receivedNum.put(receivedSticker, receivedCount);
-                    Log.d(activityName, "Received Sticker: " + receivedSticker);
+                    //Log.d(activityName, "Received Sticker: " + receivedSticker);
                 }
 
                 history.setOnClickListener(view -> {
@@ -163,7 +162,6 @@ public class LoginButtonClicked extends AppCompatActivity {
         int num = 0;
 
         for (MessageModel msg : messageModels) {
-            Log.d("some tag", msg.toString());
             if (msg.getSticker().equals(sticker) && msg.getSticker() != null) {
                 num++;
             }

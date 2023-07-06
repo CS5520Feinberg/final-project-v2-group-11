@@ -22,7 +22,6 @@ public class MessageModel {
     public String getReceiver() { return receiver; }
     public String getSender() { return sender; }
     public String getSticker() { return sticker; }
-    public byte[] getStickerImg() { return stickerImg; }
     public long getTimestamp() { return timestamp; }
     @Override
     public String toString(){
