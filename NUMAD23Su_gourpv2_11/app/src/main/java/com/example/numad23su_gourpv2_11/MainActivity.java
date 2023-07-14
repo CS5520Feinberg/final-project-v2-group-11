@@ -8,6 +8,7 @@ package com.example.numad23su_gourpv2_11;
 
         import com.example.numad23su_gourpv2_11.AtYourService.SecondActivity;
         import com.example.numad23su_gourpv2_11.StickItToEm.StickItToEm;
+        import com.example.numad23su_gourpv2_11.TourGuide.TourGuide;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -17,16 +18,22 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Button openSecondActivityButton = findViewById(R.id.button_open_second_activity);
-        Button stickItToEmBtn = findViewById(R.id.stickItToEmButton);
+        Button stickItToEmButton = findViewById(R.id.stickItToEmButton);
+        Button tourGuideButton = findViewById(R.id.tourGuide);
 
         openSecondActivityButton.setOnClickListener(view -> {
             Intent intent = new Intent(MainActivity.this, SecondActivity.class);
             startActivity(intent);
         });
 
-        stickItToEmBtn.setOnClickListener(view -> {
-            Intent intent1 = new Intent(MainActivity.this, StickItToEm.class);
-            startActivity(intent1);
+        stickItToEmButton.setOnClickListener(view -> {
+            Intent intent = new Intent(MainActivity.this, StickItToEm.class);
+            startActivity(intent);
+        });
+
+        tourGuideButton.setOnClickListener(view ->{
+            Intent intent = new Intent(MainActivity.this, TourGuide.class);
+            startActivity(intent);
         });
     }
 }
