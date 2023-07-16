@@ -50,15 +50,17 @@
             app:srcCompat="@drawable/freedom_trail_home_page" />
 
     </androidx.cardview.widget.CardView>
+
     <Button
         android:id="@+id/freedom_trail_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/CardViewImage"
+        android:text="Freedom Trail"
         app:layout_constraintBottom_toTopOf="@id/restaurants_button"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:text="Freedom Trail"/>
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/CardViewImage" />
 
     <Button
         android:id="@+id/restaurants_button"
