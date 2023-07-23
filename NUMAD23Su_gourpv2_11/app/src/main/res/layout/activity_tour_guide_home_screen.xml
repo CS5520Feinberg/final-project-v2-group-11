@@ -4,80 +4,86 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TourGuide.TourGuide">
+    android:background="@drawable/background_gradient"
+    tools:context=".TourGuide.TourGuide"
+    tools:ignore="ExtraText">
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/CardViewText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/cardview_dark_background"
+        android:layout_margin="16dp"
+        app:cardElevation="8dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/CardViewImage"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/home_screen_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="@id/CardViewText"
-            app:layout_constraintBottom_toTopOf="@id/imageView3"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_gravity="center"
             android:text="Freedom Trail Guide"
-            android:layout_centerInParent="true"
             android:textStyle="bold"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large.Inverse"/>
-    </androidx.cardview.widget.CardView>
+            android:textAppearance="?attr/textAppearanceHeadline6"/>
+    </com.google.android.material.card.MaterialCardView>
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/CardViewImage"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:cardElevation="8dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/CardViewText"
-        app:layout_constraintBottom_toTopOf="@id/freedom_trail_button"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/CardViewText">
 
         <ImageView
             android:id="@+id/imageView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="@id/CardViewImage"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/CardViewImage"
+            android:layout_gravity="center"
             app:srcCompat="@drawable/freedom_trail_home_page" />
 
-    </androidx.cardview.widget.CardView>
-    <Button
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/freedom_trail_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/CardViewImage"
-        app:layout_constraintBottom_toTopOf="@id/restaurants_button"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:text="Freedom Trail"/>
+        app:layout_constraintTop_toBottomOf="@+id/CardViewImage"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:text="Freedom Trail"
+        app:backgroundTint="#3F51B5"
+        android:textColor="#FFFFFF"/>
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/restaurants_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/freedom_trail_button"
-        app:layout_constraintBottom_toTopOf="@id/parks_button"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/freedom_trail_button"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        app:backgroundTint="#FF4081"
+        android:textColor="#FFFFFF"
         android:text="Restaurants"/>
 
-
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/parks_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/restaurants_button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/restaurants_button"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        app:backgroundTint="#4CAF50"
+        android:textColor="#FFFFFF"
         android:text="Parks"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
