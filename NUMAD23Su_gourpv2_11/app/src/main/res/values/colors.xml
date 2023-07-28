@@ -6,4 +6,8 @@
     <color name="chat_sender">#4D9450</color>
     <color name="chat_receiver">#B88334</color>
 
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
 </resources>

@@ -1,5 +1,7 @@
 package com.example.numad23su_gourpv2_11.TourGuide;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +30,7 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        // get element from your dataset at this position
+        // get element from the dataset at this position
         // replace the contents of the view with that element
         LocationClass location = locations.get(position);
         holder.bind(location);
@@ -42,18 +44,36 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
     public static class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
         public TextView nameTextView;
-        public TextView latLongTextView;
+        public TextView latitudeTextView;
+        public TextView longitudeTextView;
+
+        public TextView phoneTextView;
+
 
         public ViewHolder(View v) {
             super(v);
             nameTextView = v.findViewById(R.id.nameTextView);
-            latLongTextView = v.findViewById(R.id.latLongTextView);
+            latitudeTextView = v.findViewById(R.id.latitudeTextView);
+            longitudeTextView = v.findViewById(R.id.longitudeTextView);
+            phoneTextView = v.findViewById(R.id.phoneTextView);
+
+            phoneTextView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String phoneNumberWithPrefix = ((TextView) v).getText().toString();
+                    String phoneNumber = phoneNumberWithPrefix.replace("Phone: ", "");
+                    Intent dial = new Intent(Intent.ACTION_DIAL);
+                    dial.setData(Uri.parse("tel:" + phoneNumber));
+                    v.getContext().startActivity(dial);
+                }
+            });
         }
 
         public void bind(LocationClass location) {
             nameTextView.setText(location.getName());
-            String latLongText = "Lat: " + location.getLatitude() + ", Long: " + location.getLongitude();
-            latLongTextView.setText(latLongText);
+            latitudeTextView.setText("Latitude :" + location.getLatitude());
+            longitudeTextView.setText("Longitude: " + location.getLongitude());
+            phoneTextView.setText("Phone: " + location.getPhone());
         }
     }
 }
