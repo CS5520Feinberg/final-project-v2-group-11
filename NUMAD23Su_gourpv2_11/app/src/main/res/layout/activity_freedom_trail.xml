@@ -10,10 +10,10 @@
         android:id="@+id/freedomtrailSearchView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="1dp"
+        android:layout_marginBottom="5dp"
         android:iconifiedByDefault="false"
         android:queryHint="Search locations"
-        app:layout_constraintBottom_toTopOf="@+id/freedomtrailRecyclerView"
+        app:layout_constraintBottom_toTopOf="@+id/imageView6"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -22,13 +22,39 @@
         android:id="@+id/freedomtrailRecyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="1dp"
-        android:layout_marginEnd="1dp"
         android:layout_marginBottom="1dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/freedomTrailFullMapBtn" />
+
+    <Button
+        android:id="@+id/freedomTrailFullMapBtn"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="61dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="10dp"
+        android:text="@string/the_freedom_trail"
+        app:layout_constraintBottom_toTopOf="@+id/freedomtrailRecyclerView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/imageView6"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/freedomtrailSearchView" />
+
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="63dp"
+        android:layout_height="37dp"
+        android:layout_marginEnd="6dp"
+        android:layout_marginBottom="640dp"
+        android:importantForAccessibility="no"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/freedomTrailFullMapBtn"
+        app:layout_constraintTop_toBottomOf="@+id/freedomtrailSearchView"
+        app:srcCompat="@android:drawable/ic_dialog_map"
+        tools:ignore="ImageContrastCheck" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -8,7 +8,7 @@ public class LocationClass {
     private String Longitude;
     private String Trail_Position;
 
-    private String Phone;
+    private Long Phone;
 
     private String URLlink;
 
@@ -16,7 +16,7 @@ public class LocationClass {
         // Default constructor required for calls to DataSnapshot.getValue(Location.class)
     }
 
-    public LocationClass(String Name, String Latitude, String Longitude, String Phone, String url, String Trail_Position) {
+    public LocationClass(String Latitude, String Longitude, String Name, Long Phone, String Trail_Position, String url) {
         this.Name = Name;
         this.Latitude = Latitude;
         this.Longitude = Longitude;
@@ -41,7 +41,7 @@ public class LocationClass {
         return Trail_Position;
     }
 
-    public String getPhone() {return Phone; }
+    public Long getPhone() {return Phone; }
 
     public String getURLlink() {return URLlink; }
 }
