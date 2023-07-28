@@ -2,6 +2,7 @@ package com.example.numad23su_gourpv2_11.TourGuide;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -74,6 +75,27 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
             latitudeTextView.setText("Latitude :" + location.getLatitude());
             longitudeTextView.setText("Longitude: " + location.getLongitude());
             phoneTextView.setText("Phone: " + location.getPhone());
+
+            try {
+                final double latitude = Double.parseDouble(location.getLatitude());
+                final double longitude = Double.parseDouble(location.getLongitude());
+
+                nameTextView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Uri gmmIntentUri = Uri.parse("geo:" + latitude + "," + longitude);
+                        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                        mapIntent.setPackage("com.google.android.apps.maps");
+                        if (mapIntent.resolveActivity(v.getContext().getPackageManager()) != null) {
+                            v.getContext().startActivity(mapIntent);
+                        } else {
+                            Log.d("LocationAdapter", "No Intent available to handle action");
+                        }
+                    }
+                });
+            } catch (NumberFormatException e) {
+                Log.e("LocationAdapter", "Could not parse latitude/longitude", e);
+            }
         }
     }
 }
