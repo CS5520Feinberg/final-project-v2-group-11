@@ -1,5 +1,6 @@
 package com.example.numad23su_gourpv2_11.TourGuide;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.numad23su_gourpv2_11.R;
 
+import java.net.URI;
 import java.util.ArrayList;
 
 public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHolder> {
@@ -50,6 +52,8 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
 
         public TextView phoneTextView;
 
+        public TextView urlTextView;
+
 
         public ViewHolder(View v) {
             super(v);
@@ -57,6 +61,7 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
             latitudeTextView = v.findViewById(R.id.latitudeTextView);
             longitudeTextView = v.findViewById(R.id.longitudeTextView);
             phoneTextView = v.findViewById(R.id.phoneTextView);
+            urlTextView = v.findViewById(R.id.urlTextView);
 
             phoneTextView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -68,6 +73,7 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
                     v.getContext().startActivity(dial);
                 }
             });
+
         }
 
         public void bind(LocationClass location) {
@@ -75,6 +81,33 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
             latitudeTextView.setText("Latitude :" + location.getLatitude());
             longitudeTextView.setText("Longitude: " + location.getLongitude());
             phoneTextView.setText("Phone: " + location.getPhone());
+
+            urlTextView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String url = location.getURLlink();
+                    //String url = ((TextView) view).getText().toString();
+                    if (!url.startsWith("http://") && !url.startsWith("https://")) {
+                        url = "http://" + url;
+                    }
+//                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+//                    if (browserIntent.resolveActivity(view.getContext().getPackageManager()) != null) {
+//                        view.getContext().startActivity(browserIntent);
+//                    } else {
+//                        Log.d("URL Handler", "No Intent available to handle action");
+//                    }
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                    browserIntent.setPackage("com.android.chrome");
+                    try {
+                        view.getContext().startActivity(browserIntent);
+                    } catch (ActivityNotFoundException ex) {
+                        // Chrome browser presumably not installed and open URL in default browser
+                        browserIntent.setPackage(null);
+                        view.getContext().startActivity(browserIntent);
+                    }
+
+                }
+            });
 
             try {
                 final double latitude = Double.parseDouble(location.getLatitude());

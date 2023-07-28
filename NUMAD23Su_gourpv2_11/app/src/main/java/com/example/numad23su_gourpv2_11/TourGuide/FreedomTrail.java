@@ -65,9 +65,9 @@ public class FreedomTrail extends AppCompatActivity {
         recyclerView.setAdapter(myAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        freedomtrailFullMapButton.setOnClickListener(view -> {
-
-        });
+//        freedomtrailFullMapButton.setOnClickListener(view -> {
+//
+//        });
 
     }
 }
