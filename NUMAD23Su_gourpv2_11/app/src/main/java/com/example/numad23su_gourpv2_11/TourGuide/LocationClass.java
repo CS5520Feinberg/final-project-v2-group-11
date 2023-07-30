@@ -4,6 +4,8 @@ import java.net.URI;
 
 public class LocationClass {
     private String Name;
+    private String Address;
+    private String Description;
     private String Latitude;
     private String Longitude;
     private String Trail_Position;
@@ -16,8 +18,10 @@ public class LocationClass {
         // Default constructor required for calls to DataSnapshot.getValue(Location.class)
     }
 
-    public LocationClass(String Latitude, String Longitude, String Name, Long Phone, String Trail_Position, String url) {
+    public LocationClass(String Address, String Description, String Latitude, String Longitude, String Name, Long Phone, String Trail_Position, String url) {
         this.Name = Name;
+        this.Description = Description;
+        this.Address = Address;
         this.Latitude = Latitude;
         this.Longitude = Longitude;
         this.Trail_Position = Trail_Position;
@@ -27,6 +31,12 @@ public class LocationClass {
 
     public String getName() {
         return Name;
+    }
+
+    public String getAddress() {return Address; }
+
+    public String getDescription() {
+        return Description;
     }
 
     public String getLatitude() {

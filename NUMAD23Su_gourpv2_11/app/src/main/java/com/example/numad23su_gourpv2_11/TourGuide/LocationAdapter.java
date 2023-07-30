@@ -47,6 +47,8 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
     public static class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
         public TextView nameTextView;
+        public TextView descTextView;
+        public TextView addressTextView;
         public TextView latitudeTextView;
         public TextView longitudeTextView;
 
@@ -58,6 +60,8 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
         public ViewHolder(View v) {
             super(v);
             nameTextView = v.findViewById(R.id.nameTextView);
+            descTextView = v.findViewById(R.id.descriptionTextView);
+            addressTextView = v.findViewById(R.id.addressTextView);
             latitudeTextView = v.findViewById(R.id.latitudeTextView);
             longitudeTextView = v.findViewById(R.id.longitudeTextView);
             phoneTextView = v.findViewById(R.id.phoneTextView);
@@ -78,7 +82,9 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
 
         public void bind(LocationClass location) {
             nameTextView.setText(location.getName());
-            latitudeTextView.setText("Latitude :" + location.getLatitude());
+            descTextView.setText(location.getDescription());
+            addressTextView.setText("Address: " + location.getAddress());
+            latitudeTextView.setText("Latitude: " + location.getLatitude());
             longitudeTextView.setText("Longitude: " + location.getLongitude());
             phoneTextView.setText("Phone: " + location.getPhone());
 
