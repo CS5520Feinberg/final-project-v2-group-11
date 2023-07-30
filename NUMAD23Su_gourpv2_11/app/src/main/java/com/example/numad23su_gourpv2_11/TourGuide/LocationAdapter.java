@@ -83,8 +83,8 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
         public void bind(LocationClass location) {
             nameTextView.setText(location.getName());
             descTextView.setText(location.getDescription());
-            addressTextView.setText(location.getAddress());
-            latitudeTextView.setText("Latitude :" + location.getLatitude());
+            addressTextView.setText("Address: " + location.getAddress());
+            latitudeTextView.setText("Latitude: " + location.getLatitude());
             longitudeTextView.setText("Longitude: " + location.getLongitude());
             phoneTextView.setText("Phone: " + location.getPhone());
 
