@@ -28,6 +28,26 @@
             android:typeface="monospace" />
 
         <TextView
+            android:id="@+id/descriptionTextView"
+            android:layout_width="match_parent"
+            android:layout_height="37dp"
+            android:background="#75FF6D00"
+            android:backgroundTint="#6100B8D4"
+            android:gravity="center_vertical"
+            android:text="Description"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
+
+        <TextView
+            android:id="@+id/addressTextView"
+            android:layout_width="match_parent"
+            android:layout_height="37dp"
+            android:background="#6100BFA5"
+            android:backgroundTint="#3664DD17"
+            android:gravity="center_vertical"
+            android:text="Address"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
+
+        <TextView
             android:id="@+id/latitudeTextView"
             android:layout_width="match_parent"
             android:layout_height="37dp"
