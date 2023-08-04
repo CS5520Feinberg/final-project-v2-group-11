@@ -69,5 +69,19 @@ public class FreedomTrail extends AppCompatActivity {
 //
 //        });
 
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                // Pass the search text to your adapter
+                myAdapter.getFilter().filter(newText);
+                return false;
+            }
+        });
+
     }
 }

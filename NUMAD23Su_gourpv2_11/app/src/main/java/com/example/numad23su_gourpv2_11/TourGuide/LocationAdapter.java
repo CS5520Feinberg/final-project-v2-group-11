@@ -8,6 +8,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,12 +20,14 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.ArrayList;
 
-public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHolder> {
+public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHolder> implements Filterable {
     private final ArrayList<LocationClass> locations;
+    private ArrayList<LocationClass> filteredLocations;
 
     // constructor
     public LocationAdapter(ArrayList<LocationClass> locations) {
         this.locations = locations;
+        this.filteredLocations = locations;
     }
 
     @NonNull
@@ -38,14 +42,50 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
     public void onBindViewHolder(ViewHolder holder, int position) {
         // get element from the dataset at this position
         // replace the contents of the view with that element
-        LocationClass location = locations.get(position);
+        LocationClass location = filteredLocations.get(position);
         holder.bind(location);
     }
 
     @Override
     public int getItemCount() {
-        return locations.size();
+        return filteredLocations.size();
     }
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                String charString = charSequence.toString();
+                if (charString.isEmpty()) {
+                    filteredLocations = locations;
+                } else {
+                    ArrayList<LocationClass> filteredList = new ArrayList<>();
+                    for (LocationClass row : locations) {
+
+                        // check if the location name matches the search text
+                        if (row.getName().toLowerCase().contains(charString.toLowerCase())) {
+                            filteredList.add(row);
+                        }
+                    }
+
+                    filteredLocations = filteredList;
+                }
+
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = filteredLocations;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                // Update your adapter with the filtered list
+                filteredLocations = (ArrayList<LocationClass>) filterResults.values;
+                notifyDataSetChanged();
+            }
+        };
+    }
+
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
@@ -59,6 +99,8 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
 
         public TextView checkCoordinates;
 
+        public TextView openNavigation;
+
 
         public ViewHolder(View v) {
             super(v);
@@ -68,6 +110,7 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
             phoneTextView = v.findViewById(R.id.phoneTextView);
             urlTextView = v.findViewById(R.id.urlTextView);
             checkCoordinates = v.findViewById(R.id.checkCoordinates);
+            openNavigation = v.findViewById(R.id.openNavigation);
 
             phoneTextView.setOnClickListener(v1 -> {
                 String phoneNumberWithPrefix = ((TextView) v1).getText().toString();
@@ -78,6 +121,7 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
             });
 
         }
+
 
         @SuppressLint({"SetTextI18n", "QueryPermissionsNeeded"})
         public void bind(LocationClass location) {
@@ -127,6 +171,22 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
                     .setMessage("Latitude: " + location.getLatitude() + "\nLongitude: " + location.getLongitude())
                     .setPositiveButton("OK", /* listener = */ null)
                     .show());
+
+            openNavigation.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Uri gmmIntentUri = Uri.parse("google.navigation:q=" + location.getLatitude() + "," + location.getLongitude());
+                    Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                    mapIntent.setPackage("com.google.android.apps.maps");
+                    if (mapIntent.resolveActivity(view.getContext().getPackageManager()) != null) {
+                        view.getContext().startActivity(mapIntent);
+                    } else {
+                        Log.d("LocationAdapter", "No Intent available to handle action");
+                    }
+                }
+            });
+
+
         }
     }
 }

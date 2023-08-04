@@ -122,6 +122,28 @@
             app:strokeWidth="2dp">
 
             <TextView
+                android:id="@+id/openNavigation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:text="Navigation"
+                android:textColor="#673AB7"
+                android:background="?attr/selectableItemBackground"
+                android:textStyle="bold|italic"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardElevation="4dp"
+            app:cardCornerRadius="8dp"
+            app:contentPadding="10dp"
+            app:strokeColor="@color/colorAccent"
+            app:strokeWidth="2dp">
+
+            <TextView
                 android:id="@+id/phoneTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
