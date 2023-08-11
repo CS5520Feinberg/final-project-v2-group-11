@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -101,6 +102,7 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
 
         public TextView openNavigation;
 
+        public Spinner sortSpinner;
 
         public ViewHolder(View v) {
             super(v);
@@ -111,6 +113,8 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
             urlTextView = v.findViewById(R.id.urlTextView);
             checkCoordinates = v.findViewById(R.id.checkCoordinates);
             openNavigation = v.findViewById(R.id.openNavigation);
+            sortSpinner = v.findViewById(R.id.sort_spinner);
+
 
             phoneTextView.setOnClickListener(v1 -> {
                 String phoneNumberWithPrefix = ((TextView) v1).getText().toString();
@@ -120,11 +124,14 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
                 v1.getContext().startActivity(dial);
             });
 
+
+
         }
 
 
         @SuppressLint({"SetTextI18n", "QueryPermissionsNeeded"})
         public void bind(LocationClass location) {
+
             nameTextView.setText(location.getName());
             descTextView.setText(location.getDescription());
             addressTextView.setText("Address: " + location.getAddress());
@@ -175,7 +182,7 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
             openNavigation.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Uri gmmIntentUri = Uri.parse("google.navigation:q=" + location.getLatitude() + "," + location.getLongitude());
+                    Uri gmmIntentUri = Uri.parse("geo:" + location.getLatitude() + "," + location.getLongitude());
                     Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
                     mapIntent.setPackage("com.google.android.apps.maps");
                     if (mapIntent.resolveActivity(view.getContext().getPackageManager()) != null) {
@@ -189,4 +196,5 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
 
         }
     }
+
 }

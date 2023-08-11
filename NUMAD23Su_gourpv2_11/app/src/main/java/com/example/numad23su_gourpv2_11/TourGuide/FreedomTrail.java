@@ -1,6 +1,5 @@
 package com.example.numad23su_gourpv2_11.TourGuide;
 
-import android.location.Location;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.SearchView;
@@ -9,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.numad23su_gourpv2_11.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -17,7 +17,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class FreedomTrail extends AppCompatActivity {
     private RecyclerView recyclerView;
@@ -31,7 +30,7 @@ public class FreedomTrail extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_freedom_trail);
 
-        freedomtrailFullMapButton = findViewById(R.id.freedomTrailFullMapBtn);
+        //freedomtrailFullMapButton = findViewById(R.id.freedomTrailFullMapBtn);
 
         recyclerView = findViewById(R.id.freedomtrailRecyclerView);
         SearchView searchView = findViewById(R.id.freedomtrailSearchView);

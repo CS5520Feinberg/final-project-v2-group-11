@@ -22,4 +22,8 @@
     <string name="visit_the_website">Visit the Website</string>
     <string name="description">Description</string>
     <string name="see_the_co_ordinates">See the co-ordinates</string>
+    <string-array name="sort_options">
+        <item>Sort by Name</item>
+        <item>Sort by Distance</item>
+    </string-array>
 </resources>
