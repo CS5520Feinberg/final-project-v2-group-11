@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-public class FreedomTrail extends AppCompatActivity {
+public class ParksActivity extends AppCompatActivity {
     private LocationAdapter myAdapter;
     private final ArrayList<LocationClass> locations = new ArrayList<>();
 
@@ -88,10 +88,6 @@ public class FreedomTrail extends AppCompatActivity {
                 //handle error
             }
         });
-
-        // Add some locations to your list
-        //LocationClass lc = new LocationClass("Old State House", "42.3586300392819", "-71.05750988813851", "6177201713", "https://www.thefreedomtrail.org/trail-sites/old-state-house", "10");
-        //locations.add(lc);
 
         // Instantiate the adapter with your list of locations and set it on the RecyclerView
         myAdapter = new LocationAdapter(locations);
