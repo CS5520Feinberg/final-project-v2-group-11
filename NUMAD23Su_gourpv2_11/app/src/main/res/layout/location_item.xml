@@ -62,7 +62,7 @@
                 android:fontFamily="sans-serif-condensed-medium"
                 android:gravity="center_vertical"
                 android:maxLines="2147483647"
-                android:text="Description"
+                android:text="@string/description"
                 android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
                 android:textStyle="bold|italic" />
@@ -100,11 +100,14 @@
             app:strokeWidth="2dp">
 
             <TextView
-                android:id="@+id/latitudeTextView"
+                android:id="@+id/checkCoordinates"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:text="@string/latitude"
+                android:text="@string/see_the_co_ordinates"
+                android:textColor="#673AB7"
+                android:background="?attr/selectableItemBackground"
+                android:textStyle="bold|italic"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
 
         </com.google.android.material.card.MaterialCardView>
@@ -119,11 +122,14 @@
             app:strokeWidth="2dp">
 
             <TextView
-                android:id="@+id/longitudeTextView"
+                android:id="@+id/openNavigation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:text="@string/longitude"
+                android:text="Navigation"
+                android:textColor="#673AB7"
+                android:background="?attr/selectableItemBackground"
+                android:textStyle="bold|italic"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
 
         </com.google.android.material.card.MaterialCardView>
