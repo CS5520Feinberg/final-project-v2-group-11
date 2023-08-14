@@ -34,7 +34,6 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        // create a new view
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.location_item, parent, false);
         return new ViewHolder(v);
     }
@@ -78,6 +77,7 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
                 return filterResults;
             }
 
+            @SuppressLint("NotifyDataSetChanged")
             @Override
             protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
                 // Update your adapter with the filtered list
@@ -179,22 +179,20 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
                     .setPositiveButton("OK", /* listener = */ null)
                     .show());
 
-            openNavigation.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Uri gmmIntentUri = Uri.parse("geo:" + location.getLatitude() + "," + location.getLongitude());
-                    Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-                    mapIntent.setPackage("com.google.android.apps.maps");
-                    if (mapIntent.resolveActivity(view.getContext().getPackageManager()) != null) {
-                        view.getContext().startActivity(mapIntent);
-                    } else {
-                        Log.d("LocationAdapter", "No Intent available to handle action");
-                    }
+            openNavigation.setOnClickListener(view -> {
+                Uri gmmIntentUri = Uri.parse("geo:" + location.getLatitude() + "," + location.getLongitude());
+                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                mapIntent.setPackage("com.google.android.apps.maps");
+                if (mapIntent.resolveActivity(view.getContext().getPackageManager()) != null) {
+                    view.getContext().startActivity(mapIntent);
+                } else {
+                    Log.d("LocationAdapter", "No Intent available to handle action");
                 }
             });
 
 
         }
+
     }
 
 }
