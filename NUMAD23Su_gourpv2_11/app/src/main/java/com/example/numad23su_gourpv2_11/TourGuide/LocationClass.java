@@ -1,7 +1,5 @@
 package com.example.numad23su_gourpv2_11.TourGuide;
 
-import java.net.URI;
-
 public class LocationClass {
     private String Name;
     private String Address;
