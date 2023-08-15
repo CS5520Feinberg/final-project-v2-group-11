@@ -11,6 +11,7 @@ public class LocationClass {
     private Long Phone;
 
     private String URLlink;
+    private double distance;
 
     public LocationClass() {
         // Default constructor required for calls to DataSnapshot.getValue(Location.class)
@@ -25,6 +26,7 @@ public class LocationClass {
         this.Trail_Position = Trail_Position;
         this.Phone = Phone;
         this.URLlink = url;
+        this.distance = 0;
     }
 
     public String getName() {
@@ -52,4 +54,6 @@ public class LocationClass {
     public Long getPhone() {return Phone; }
 
     public String getURLlink() {return URLlink; }
+    public void setDistance(double distance){ this.distance = distance; }
+    public double getDistance() {return distance; }
 }

@@ -26,4 +26,7 @@
         <item>Sort by Name</item>
         <item>Sort by Distance</item>
     </string-array>
+    <string-array name="sort_options_parks_restaurant">
+        <item>Sort by Distance</item>
+    </string-array>
 </resources>

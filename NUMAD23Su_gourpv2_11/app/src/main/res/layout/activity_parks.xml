@@ -42,7 +42,7 @@
             android:id="@+id/sort_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:entries="@array/sort_options"
+            android:entries="@array/sort_options_parks_restaurant"
             android:minHeight="48dp"
             tools:ignore="DuplicateSpeakableTextCheck" />
     </com.google.android.material.card.MaterialCardView>

@@ -90,60 +90,12 @@ public class RestaurantsActivity extends AppCompatActivity {
         locationRequest = new LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 10000).build();
         initializeData(savedInstanceState);
         getLastLocation();
-        Spinner sortSpinner = findViewById(R.id.sort_spinner);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.sort_options, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        sortSpinner.setAdapter(adapter);
-        sortSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @SuppressLint("NotifyDataSetChanged")
-            @Override
-            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                if(position == 0) {
-                    sortByName();
-                } else if (position == 1) {
-                    // assuming you've some way to get current user's location
-                    sortByDistance(currentLatitude, currentLongitude);
-                }
-                myAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parentView) {
-                // Do nothing here
-            }
-        });
 
         // Instantiate the adapter with your list of locations and set it on the RecyclerView
         myAdapter = new LocationAdapter(mylocations);
         recyclerView.setAdapter(myAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-    }
-
-    private void sortByName() {
-        Collections.sort(mylocations, Comparator.comparing(LocationClass::getName));
-    }
-
-    private void sortByDistance(final double userLat, final double userLng) {
-        Collections.sort(mylocations, (location1, location2) -> {
-            double lat1 = Double.parseDouble(location1.getLatitude());
-            double lng1 = Double.parseDouble(location1.getLongitude());
-
-            double lat2 = Double.parseDouble(location2.getLatitude());
-            double lng2 = Double.parseDouble(location2.getLongitude());
-
-            double distanceToLoc1 = distance(userLat, userLng, lat1, lng1);
-            double distanceToLoc2 = distance(userLat, userLng, lat2, lng2);
-
-            return Double.compare(distanceToLoc1, distanceToLoc2);
-        });
-    }
-
-    private double distance(double lat1, double lng1, double lat2, double lng2) {
-        // compute the distance between two lat-lng pairs. You can use the Haversine formula or any library method
-        // for simplicity, you can use direct distance calculation without accounting for Earth's curvature
-        double a = Math.pow(lat2 - lat1, 2) + Math.pow(lng2 - lng1, 2);
-        return Math.sqrt(a);
     }
 
     private void initializeData(Bundle savedInstanceState) {
@@ -264,6 +216,7 @@ public class RestaurantsActivity extends AppCompatActivity {
                             "-1",
                             responseData.get(i).getUrl()
                             );
+                    temp.setDistance(responseData.get(i).getDistance());
                     tempLocations.add(temp);
                 }
                 RecyclerView recyclerView = findViewById(R.id.restaurantRecyclerView);
