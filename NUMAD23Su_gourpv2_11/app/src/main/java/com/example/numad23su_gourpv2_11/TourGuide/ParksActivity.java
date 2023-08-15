@@ -20,7 +20,10 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.numad23su_gourpv2_11.BuildConfig;
 import com.example.numad23su_gourpv2_11.R;
+import com.example.numad23su_gourpv2_11.TourGuide.YelpAPIAccess.Business;
+import com.example.numad23su_gourpv2_11.TourGuide.YelpAPIAccess.YelpLocationData;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -32,35 +35,30 @@ import com.google.android.gms.location.Priority;
 import com.google.android.gms.location.SettingsClient;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
-import org.json.JSONObject;
-
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Scanner;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.GET;
+import retrofit2.http.Header;
+import retrofit2.http.Query;
 
 public class ParksActivity extends AppCompatActivity {
-
     private static final int REQUEST_CODE = 100;
+    private static final String YelpAPISecKey = BuildConfig.YELP_API_KEY;
     private LocationAdapter myAdapter;
-    private final ArrayList<LocationClass> locations = new ArrayList<>();
+    private ArrayList<LocationClass> mylocations = new ArrayList<>();
+    private Location lastLocation;
     private FusedLocationProviderClient fusedLocationClient;
-    private ArrayList<JSONObject> listOfParks;
     private double currentLatitude;
     private double currentLongitude;
-    private double longitudeValue;
-    private double latitudeValue;
-
-    private Location lastLocation;
 
     LocationRequest locationRequest;
     LocationCallback locationCallback = new LocationCallback() {
@@ -70,20 +68,18 @@ public class ParksActivity extends AppCompatActivity {
                 return;
             }
             for (Location location : locationResult.getLocations()) {
-                longitudeValue = location.getLongitude();
-                latitudeValue = location.getLatitude();
-                listOfParks = new ArrayList<JSONObject>();
-                try {
-                    setListOfParks();
-                } catch (MalformedURLException e) {
-                    throw new RuntimeException(e);
-                }
+                setLongitude(location.getLongitude());
+                setLatitude(location.getLatitude());
+                querySearch();
             }
         }
     };
 
+    interface RequestParks{
+        @GET("/v3/businesses/search")
+        Call<YelpLocationData> getLocation(@Header("Authorization") String authHeader, @Query("latitude") double latitude, @Query("longitude")double longitude, @Query("open_now") String open_now, @Query("sort_by") String sort_by, @Query("term") String term);
+    }
 
-    @SuppressLint("MissingPermission")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,8 +89,10 @@ public class ParksActivity extends AppCompatActivity {
         SearchView searchView = findViewById(R.id.parkSearchView);
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        locationRequest = new LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 500).build();
+        locationRequest = new LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 10000).build();
         initializeData(savedInstanceState);
+        getLastLocation();
+
 
         Spinner sortSpinner = findViewById(R.id.sort_spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.sort_options, android.R.layout.simple_spinner_item);
@@ -120,28 +118,8 @@ public class ParksActivity extends AppCompatActivity {
             }
         });
 
-        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference().child("Locations").child("Freedom_Trail");
-
-        mDatabase.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                locations.clear();
-
-                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    LocationClass location = postSnapshot.getValue(LocationClass.class);
-
-                    locations.add(location);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                //handle error
-            }
-        });
-
         // Instantiate the adapter with your list of locations and set it on the RecyclerView
-        myAdapter = new LocationAdapter(locations);
+        myAdapter = new LocationAdapter(mylocations);
         recyclerView.setAdapter(myAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -161,11 +139,11 @@ public class ParksActivity extends AppCompatActivity {
     }
 
     private void sortByName() {
-        Collections.sort(locations, Comparator.comparing(LocationClass::getName));
+        Collections.sort(mylocations, Comparator.comparing(LocationClass::getName));
     }
 
     private void sortByDistance(final double userLat, final double userLng) {
-        Collections.sort(locations, (location1, location2) -> {
+        Collections.sort(mylocations, (location1, location2) -> {
             double lat1 = Double.parseDouble(location1.getLatitude());
             double lng1 = Double.parseDouble(location1.getLongitude());
 
@@ -277,37 +255,56 @@ public class ParksActivity extends AppCompatActivity {
         }
     }
 
-    protected void setListOfParks() throws MalformedURLException {
-        try {
-            Log.d("long", ("long: " + longitudeValue));
-            Log.d("lat", ("lat: " + latitudeValue));
-            String urlBuilder = String.format("https://api.yelp.com/v3/businesses/search?latitude=%s&longitude=%s&open_now=%s&sort_by=%s&term=%s", latitudeValue, longitudeValue, "true", "distance", "meal");
-            URL url = new URL(urlBuilder);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
-            connection.connect();
-
-            int responseCode = connection.getResponseCode();
-            Log.d("responseCode", String.valueOf(responseCode));
-            if(responseCode != 200){
-                throw new RuntimeException("HttpResponseCode: " + responseCode);
-            } else {
-                StringBuilder stringBuilt = new StringBuilder();
-                Scanner scanner = new Scanner(url.openStream());
-                while (scanner.hasNext()){
-                    stringBuilt.append(scanner.nextLine());
+    public void querySearch(){
+        ArrayList<LocationClass> tempLocations = this.mylocations;
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://api.yelp.com")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+       ParksActivity.RequestParks requestParks = retrofit.create(ParksActivity.RequestParks.class);
+        Log.d("Location", String.format("Lat: %s, Long: %s", Double.toString(this.currentLatitude), Double.toString(this.currentLongitude)));
+        requestParks.getLocation("Bearer " + YelpAPISecKey, this.currentLatitude, this.currentLongitude, "true", "distance", "parks" ).enqueue(new Callback<YelpLocationData>() {
+            @Override
+            public void onResponse(Call<YelpLocationData> call, Response<YelpLocationData> response) {
+                List<Business> responseData = response.body().getBusinesses();
+                for (int i = 0; i < responseData.size(); i++) {
+                    Long phoneNumber = 0L;
+                    if(responseData.get(i).getPhone().length() != 0){
+                        phoneNumber = Long.parseLong(responseData.get(i).getPhone().substring(1));
+                    }
+                    LocationClass temp = new LocationClass(
+                            responseData.get(i).getLocation().getAddress1(),
+                            String.format("Park with a rating of %f", responseData.get(i).getRating()),
+                            Double.toString(responseData.get(i).getCoordinates().getLatitude()),
+                            Double.toString(responseData.get(i).getCoordinates().getLongitude()),
+                            responseData.get(i).getName(),
+                            phoneNumber,
+                            "-1",
+                            responseData.get(i).getUrl()
+                    );
+                    tempLocations.add(temp);
                 }
-                scanner.close();
-                Log.w("tag", "HERE");
-                Log.d("tag", String.valueOf(stringBuilt));
+                RecyclerView recyclerView = findViewById(R.id.parkRecyclerView);
+                myAdapter = new LocationAdapter(tempLocations);
+                recyclerView.setAdapter(myAdapter);
+                Log.d("array",String.format("tempLocations size: %d", tempLocations.size()));
             }
-            connection.disconnect();
-        } catch (Exception e){
-            e.printStackTrace();
-        }
+
+            @Override
+            public void onFailure(Call<YelpLocationData> call, Throwable t) {
+                Log.d("Fail", "query for new Park failed");
+            }
+        });
     }
 
+    private void recyclerView(){
 
-
+    }
+    private void setLongitude(double longitudeValue){
+        this.currentLongitude = longitudeValue;
+    }
+    private void setLatitude(double latitudeValue){
+        this.currentLatitude = latitudeValue;
+    }
 
 }

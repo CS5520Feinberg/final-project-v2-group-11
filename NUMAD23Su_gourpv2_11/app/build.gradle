@@ -7,14 +7,17 @@ android {
     namespace 'com.example.numad23su_gourpv2_11'
     compileSdk 33
 
+    buildFeatures{
+        buildConfig = true
+    }
     defaultConfig {
         applicationId "com.example.numad23su_gourpv2_11"
         minSdk 27
         targetSdk 33
         versionCode 1
         versionName "1.0"
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField("String", "YELP_API_KEY", YelpAPIKey)
     }
 
     buildTypes {
